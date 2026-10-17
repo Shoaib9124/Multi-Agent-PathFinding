@@ -482,4 +482,3 @@ def build_scenario(name: str, **kwargs) -> Scenario:
             % (name, ", ".join(available_scenarios()))
         ) from error
     return builder(**kwargs)
-

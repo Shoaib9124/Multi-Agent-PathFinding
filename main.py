@@ -185,9 +185,7 @@ class ResearchPlatformHandler(SimpleHTTPRequestHandler):
                 404, {"ok": False, "error": f"Unknown endpoint {parsed.path}"}
             )
         except ValueError as exc:
-            self._send_json(
-                400, {"ok": False, "error": str(exc), "errors": [str(exc)]}
-            )
+            self._send_json(400, {"ok": False, "error": str(exc), "errors": [str(exc)]})
         except Exception as exc:  # pragma: no cover
             self._send_json(
                 500,

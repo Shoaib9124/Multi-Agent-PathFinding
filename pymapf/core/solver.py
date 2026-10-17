@@ -332,9 +332,9 @@ def validate_solution(
             "space_time_astar",
         ):
             for t in range(len(path) - 1):
-                if tuple(path[t]) == tuple(agent.goal) and tuple(
-                    path[t + 1]
-                ) != tuple(agent.goal):
+                if tuple(path[t]) == tuple(agent.goal) and tuple(path[t + 1]) != tuple(
+                    agent.goal
+                ):
                     goal_occupancy_valid = False
                     violations.append(
                         "Agent %s moved away from assigned goal %s between t=%d and t=%d."

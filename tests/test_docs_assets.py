@@ -38,7 +38,9 @@ def test_published_json_is_valid_json(path):
 
 def test_mappo_policy_checkpoint_is_present_and_shaped():
     path = os.path.join(ASSETS, "mappo-policy.json")
-    assert os.path.exists(path), "Pre-trained MAPPO checkpoint must exist in .docs/assets/"
+    assert os.path.exists(
+        path
+    ), "Pre-trained MAPPO checkpoint must exist in .docs/assets/"
     with open(path, encoding="utf-8") as handle:
         checkpoint = json.load(handle, parse_constant=reject_constant)
 
@@ -72,4 +74,6 @@ def test_every_asset_the_page_references_exists():
         for value in sorted(referenced)
         if value and not os.path.exists(os.path.join(DOCS, value))
     ]
-    assert not missing, "index.html links files that do not exist in .docs: %s" % missing
+    assert not missing, (
+        "index.html links files that do not exist in .docs: %s" % missing
+    )

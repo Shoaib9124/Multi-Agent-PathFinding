@@ -332,9 +332,7 @@ class NumpyActorCritic(ActorCritic):
                 if param.shape == arr.shape:
                     param[...] = arr
                 elif (
-                    param.ndim == 2
-                    and arr.ndim == 2
-                    and param.shape[1] == arr.shape[1]
+                    param.ndim == 2 and arr.ndim == 2 and param.shape[1] == arr.shape[1]
                 ):
                     overlap = min(param.shape[0], arr.shape[0])
                     param[:overlap, :] = arr[:overlap, :]

@@ -545,7 +545,10 @@ def test_finished_agent_stays_stationary_and_ignores_non_stay_actions():
     # Step 2: A attempts to move RIGHT/LEFT/DOWN away from its goal, while B moves RIGHT
     for attempted_action in (RIGHT, LEFT, DOWN, UP):
         _, r_step, term, trunc, infos = env.step({"A": attempted_action, "B": STAY})
-        assert env.positions["A"] == (1, 2), "Finished agent A must remain locked at goal"
+        assert env.positions["A"] == (
+            1,
+            2,
+        ), "Finished agent A must remain locked at goal"
         assert env.finished["A"] is True
         assert r_step["A"] == 0.0, "Finished agent receives 0 step reward while waiting"
 
@@ -596,4 +599,3 @@ def test_incomplete_episode_at_horizon_is_truncated_and_unsolved():
     assert summary["solved"] is False
     assert summary["truncated"] is True
     assert env.solution().is_valid(env.problem) is False
-

@@ -143,7 +143,9 @@ class TestResearchPlatform(unittest.TestCase):
             }
         )
 
-        comp = run_comparison(problem, {"heuristic": "manhattan", "mappo_mode": "sampled"})
+        comp = run_comparison(
+            problem, {"heuristic": "manhattan", "mappo_mode": "sampled"}
+        )
         for algo in ("prioritized", "cbs", "mappo"):
             self.assertIn(algo, comp["outcomes"])
             res = comp["outcomes"][algo]
@@ -168,7 +170,9 @@ class TestResearchPlatform(unittest.TestCase):
             seeds=[0],
             options={"mappo_mode": "sampled"},
         )
-        self.assertEqual(len(batch["rows"]), 6)  # 2 agent counts * 1 seed * 3 algorithms
+        self.assertEqual(
+            len(batch["rows"]), 6
+        )  # 2 agent counts * 1 seed * 3 algorithms
         self.assertEqual(len(batch["summary"]), 3)
 
         # Spin up ResearchHTTPServer on an ephemeral port and test /api/health, /api/compare, and /api/batch
@@ -275,7 +279,9 @@ class TestResearchPlatform(unittest.TestCase):
         # returns to (1,2) at t=2 (cost 2) -> optimal sum_of_costs == 4.
         self.assertEqual(sol_cbs.sum_of_costs, 4)
 
-    def test_audit_mappo_reproducibility_truncation_bootstrap_and_critic_warmstart(self):
+    def test_audit_mappo_reproducibility_truncation_bootstrap_and_critic_warmstart(
+        self,
+    ):
         from pymapf.rl import MAPFEnv, make_trainer, rollout
         from pymapf.research import load_pretrained_mappo_state
 
@@ -344,7 +350,9 @@ class TestResearchPlatform(unittest.TestCase):
                 if tuple(cell) == (1, 2):
                     reached = True
                 elif reached:
-                    self.fail(f"Agent A moved away from goal (1, 2) to {cell} in {mode} mode")
+                    self.fail(
+                        f"Agent A moved away from goal (1, 2) to {cell} in {mode} mode"
+                    )
 
         # Verify Prioritized A* and CBS also return structured execution_log
         for algo in ("prioritized", "cbs"):
@@ -384,4 +392,3 @@ class TestResearchPlatform(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

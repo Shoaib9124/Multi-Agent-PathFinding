@@ -33,7 +33,7 @@ from .core.solver import (
     Solution,
     validate_solution,
 )
-from . core.trace import SearchTrace
+from .core.trace import SearchTrace
 from .scenarios import build_scenario
 
 __all__ = [
@@ -101,18 +101,26 @@ def validate_problem_spec(spec: dict) -> Tuple[bool, List[str]]:
         start = tuple(entry.get("start", ()))
         goal = tuple(entry.get("goal", ()))
         if len(start) != 2 or len(goal) != 2:
-            errors.append(f"Agent '{name}' start and goal must be 2D [row, col] coordinates.")
+            errors.append(
+                f"Agent '{name}' start and goal must be 2D [row, col] coordinates."
+            )
             continue
 
         sr, sc = int(start[0]), int(start[1])
         gr, gc = int(goal[0]), int(goal[1])
         if not (0 <= sr < height and 0 <= sc < width):
-            errors.append(f"Agent '{name}' start ({sr}, {sc}) is outside the {height}x{width} grid.")
+            errors.append(
+                f"Agent '{name}' start ({sr}, {sc}) is outside the {height}x{width} grid."
+            )
         elif matrix[sr][sc]:
-            errors.append(f"Agent '{name}' start ({sr}, {sc}) is placed on an obstacle.")
+            errors.append(
+                f"Agent '{name}' start ({sr}, {sc}) is placed on an obstacle."
+            )
 
         if not (0 <= gr < height and 0 <= gc < width):
-            errors.append(f"Agent '{name}' goal ({gr}, {gc}) is outside the {height}x{width} grid.")
+            errors.append(
+                f"Agent '{name}' goal ({gr}, {gc}) is outside the {height}x{width} grid."
+            )
         elif matrix[gr][gc]:
             errors.append(f"Agent '{name}' goal ({gr}, {gc}) is placed on an obstacle.")
 
@@ -238,12 +246,8 @@ def train_pretrained_mappo_checkpoint(
             "training_distribution": "2-stage curriculum: empty_room (8x8) -> random_obstacles (9x9)",
             "seed": seed,
         },
-        "actor": [
-            np.round(param, 6).tolist() for param in final_state["actor"]
-        ],
-        "critic": [
-            np.round(param, 6).tolist() for param in final_state["critic"]
-        ],
+        "actor": [np.round(param, 6).tolist() for param in final_state["actor"]],
+        "critic": [np.round(param, 6).tolist() for param in final_state["critic"]],
     }
 
     if output_path:
@@ -348,17 +352,27 @@ def _build_mappo_rollout_with_log(
             act_label = (
                 "LOCKED@GOAL"
                 if prev_finished.get(agent, False)
-                else _ACTION_NAMES[act_idx] if 0 <= act_idx < len(_ACTION_NAMES) else str(act_idx)
+                else (
+                    _ACTION_NAMES[act_idx]
+                    if 0 <= act_idx < len(_ACTION_NAMES)
+                    else str(act_idx)
+                )
             )
             move_summaries.append(f"{agent}:{act_label}{prev_pos}→{curr_pos}")
 
             if not prev_finished.get(agent, False) and env.finished.get(agent, False):
-                arrived_now.append(f"Agent {agent} reached goal {curr_pos} (FINISHED & locked)")
+                arrived_now.append(
+                    f"Agent {agent} reached goal {curr_pos} (FINISHED & locked)"
+                )
 
             if info.get("blocked"):
-                blocked_events.append(f"Agent {agent} {act_label} from {prev_pos} blocked by obstacle/wall")
+                blocked_events.append(
+                    f"Agent {agent} {act_label} from {prev_pos} blocked by obstacle/wall"
+                )
             if info.get("collided"):
-                delta = env.actions[act_idx] if 0 <= act_idx < len(env.actions) else (0, 0)
+                delta = (
+                    env.actions[act_idx] if 0 <= act_idx < len(env.actions) else (0, 0)
+                )
                 attempted = (prev_pos[0] + delta[0], prev_pos[1] + delta[1])
                 parked_owner = next(
                     (
@@ -380,15 +394,24 @@ def _build_mappo_rollout_with_log(
                     )
 
         has_notable_event = bool(arrived_now or blocked_events or collision_events)
-        if t <= 20 or has_notable_event or t == env.max_steps or any(terminations.values()):
-            finished_cnt = sum(1 for a in env.possible_agents if env.finished.get(a, False))
+        if (
+            t <= 20
+            or has_notable_event
+            or t == env.max_steps
+            or any(terminations.values())
+        ):
+            finished_cnt = sum(
+                1 for a in env.possible_agents if env.finished.get(a, False)
+            )
             step_line = f"[t={t}] {', '.join(move_summaries)} | finished={finished_cnt}/{len(env.possible_agents)}"
             logs.append({"step": t, "kind": "step", "text": step_line})
 
         for msg in arrived_now:
             logs.append({"step": t, "kind": "goal", "text": f"[t={t} GOAL] {msg}"})
         for msg in collision_events:
-            logs.append({"step": t, "kind": "conflict", "text": f"[t={t} REFUSED] {msg}"})
+            logs.append(
+                {"step": t, "kind": "conflict", "text": f"[t={t} REFUSED] {msg}"}
+            )
         for msg in blocked_events:
             logs.append({"step": t, "kind": "warn", "text": f"[t={t} BLOCKED] {msg}"})
 
@@ -474,7 +497,8 @@ def _build_search_execution_log(
                     else 0
                 )
                 preview = " → ".join(
-                    f"({r},{c})" for r, c in (path[:6] if len(path) <= 7 else path[:4] + path[-2:])
+                    f"({r},{c})"
+                    for r, c in (path[:6] if len(path) <= 7 else path[:4] + path[-2:])
                 )
                 if len(path) > 7:
                     preview = (
@@ -705,9 +729,7 @@ def _run_mappo(
     training_time = float(
         pretrained.get("training_meta", {}).get("training_time_sec", 0.0)
     )
-    training_steps = int(
-        pretrained.get("training_meta", {}).get("training_steps", 0)
-    )
+    training_steps = int(pretrained.get("training_meta", {}).get("training_steps", 0))
     training_mode_label = (
         "Pre-trained general MAPPO policy"
         if not train_on_instance
@@ -915,8 +937,7 @@ def run_single_algorithm(
         "planning_time": elapsed,
         "status_reason": status_reason,
         "paths": {
-            name: [list(cell) for cell in path]
-            for name, path in solution.paths.items()
+            name: [list(cell) for cell in path] for name, path in solution.paths.items()
         },
         "execution_log": execution_log,
         "validation": report.as_dict(),
@@ -1025,7 +1046,9 @@ def run_batch_experiment(
                             "seed": scen_seed,
                             "scenario_seed": scen_seed,
                             "mappo_eval_seed": eval_seed if algo == "mappo" else None,
-                            "mappo_mode": res.get("mappo_mode") if algo == "mappo" else None,
+                            "mappo_mode": (
+                                res.get("mappo_mode") if algo == "mappo" else None
+                            ),
                             "algorithm": algo,
                             "solved": bool(res["solved"]),
                             "valid": bool(res["valid"]),
@@ -1049,9 +1072,13 @@ def run_batch_experiment(
         total = max(1, len(algo_rows))
         solved_rows = [r for r in algo_rows if r["solved"]]
         valid_rows = [r for r in algo_rows if r["valid"]]
-        costs = [r["sum_of_costs"] for r in solved_rows if r["sum_of_costs"] is not None]
+        costs = [
+            r["sum_of_costs"] for r in solved_rows if r["sum_of_costs"] is not None
+        ]
         makespans = [r["makespan"] for r in solved_rows if r["makespan"] is not None]
-        ratios = [r["suboptimality"] for r in solved_rows if r["suboptimality"] is not None]
+        ratios = [
+            r["suboptimality"] for r in solved_rows if r["suboptimality"] is not None
+        ]
         runtimes = [r["runtime"] for r in algo_rows]
 
         summary_by_algo.append(
@@ -1068,7 +1095,9 @@ def run_batch_experiment(
                 "mean_suboptimality": (
                     round(sum(ratios) / len(ratios), 3) if ratios else None
                 ),
-                "mean_runtime": round(sum(runtimes) / len(runtimes), 6) if runtimes else 0.0,
+                "mean_runtime": (
+                    round(sum(runtimes) / len(runtimes), 6) if runtimes else 0.0
+                ),
                 "timing_kind": (
                     "Rollout inference time (excludes offline training)"
                     if algo == "mappo"
