@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Train IPPO and MAPPO on MAPF, then score them against the planners.
 
-Everything the film and the survey claim about the RL layer is produced here,
-on instances drawn by seed so every method sees the same maps::
+Training and evaluation use instances drawn by seed so every method sees the
+same maps::
 
     python scripts/train_rl.py                       # the standard sweep
     python scripts/train_rl.py --steps 1000000       # longer

@@ -1,29 +1,42 @@
 cff-version: 1.2.0
-title: pymapf
+title: PyMAPF 2D Multi-Agent Pathfinding Research Platform
 message: >-
-  If you use pymapf in your work, please cite the survey below, which is the
-  published record behind this library.
+  This repository adapts the open-source PyMAPF library by Erwin Lejeune and
+  Sampreet Sarkar into a focused 2D research and simulation platform. If you
+  use the underlying library, please cite the original work below.
 type: software
 authors:
   - family-names: Lejeune
     given-names: Erwin
   - family-names: Sarkar
     given-names: Sampreet
-repository-code: "https://github.com/openplan-labs/pymapf"
-url: "https://openplan-labs.github.io/pymapf/"
+# Add your own author entry here if you are citing your adaptation.
+repository-code: "https://github.com/Shoaib9124/Multi-Agent-PathFinding"
 abstract: >-
-  A Python library for multi-agent planning and pathfinding. Centralized
-  solvers include conflict-based search, weighted CBS, PIBT, LaCAM, large
-  neighbourhood search, SIPP and space-time A*; decentralized control includes
-  nonlinear model predictive control, velocity obstacles and swarm behaviours.
+  A 2D grid multi-agent pathfinding research platform for comparing
+  prioritized planning with Space-Time A*, Conflict-Based Search and a learned
+  MAPPO policy on identical instances. It includes an interactive editor,
+  synchronized playback, formal solution validation and reproducible batch
+  experiments with CSV export.
 license: MIT
 version: 0.9.0
 keywords:
   - multi-agent pathfinding
   - motion planning
-  - robotics
   - conflict-based search
-  - swarm
+  - prioritized planning
+  - reinforcement learning
+references:
+  - type: software
+    title: PyMAPF
+    authors:
+      - family-names: Lejeune
+        given-names: Erwin
+      - family-names: Sarkar
+        given-names: Sampreet
+    repository-code: "https://github.com/openplan-labs/pymapf"
+    url: "https://openplan-labs.github.io/pymapf/"
+    version: 0.9.0
 preferred-citation:
   type: article
   title: "Survey of the Multi-Agent Pathfinding Solutions"

@@ -39,7 +39,7 @@ A focused, reproducible 2D Multi-Agent Pathfinding (MAPF) research and simulatio
 
 ```text
 ├── main.py                              # Web server (0.0.0.0:3000) & CLI entry point
-├── requirements.txt                     # Python dependencies (numpy)
+├── requirements.txt                     # NumPy and pytest
 ├── pyproject.toml                       # Package metadata & pytest configuration
 ├── pymapf/
 │   ├── __init__.py                      # Public 2D package exports & solve() helper
@@ -85,26 +85,34 @@ A focused, reproducible 2D Multi-Agent Pathfinding (MAPF) research and simulatio
 
 ## 3. Quickstart & Commands
 
+### Install dependencies
+
+The planners are pure standard library. NumPy is needed for MAPPO, and pytest
+is needed to run the tests:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
 ### Start the Interactive Web Application (Port 3000)
 
 ```bash
-python3 main.py
+python main.py
 ```
 
-Then open `http://localhost:3000` in your browser.
+Then open `http://localhost:3000` in your browser. Use `--port 8000` if the
+port is busy, and `--host 127.0.0.1` to bind to the local machine only.
 
 ### Run a Headless CLI Comparison
 
 ```bash
-python3 main.py --cli-demo
-# Or customize scenario, agent count, and seed:
-python3 main.py --cli --scenario bottleneck --agents 4 --seed 0
+python main.py --cli-demo
 ```
 
 ### Run the Test Suite
 
 ```bash
-python3 -m unittest discover -s tests -p "test_research_platform.py" -v
+python -m pytest -q
 ```
 
 ### Rebuild the Browser Python Bundle
@@ -112,8 +120,11 @@ python3 -m unittest discover -s tests -p "test_research_platform.py" -v
 After modifying `pymapf/core`, `pymapf/algorithms`, `pymapf/scenarios.py`, or `pymapf/benchmark.py`:
 
 ```bash
-python3 scripts/build_web_bundle.py
+python scripts/build_web_bundle.py
 ```
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for a fuller development setup and a map
+of the repository layout.
 
 ---
 

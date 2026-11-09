@@ -28,9 +28,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -40,16 +40,16 @@ jobs:
       - name: Check the bundle imports cleanly
         run: |
           python - <<'PY'
-          import json, sys
+          import json
           bundle = json.load(open(".docs/pymapf-bundle.json"))
           missing = [p for p in bundle["files"] if not p.endswith(".py")]
           assert not missing, missing
           print("bundle: %d modules, pymapf %s" % (len(bundle["files"]), bundle["version"]))
           PY
 
-      - uses: actions/configure-pages@v6
+      - uses: actions/configure-pages@v5
 
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: .docs
 
@@ -61,4 +61,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4

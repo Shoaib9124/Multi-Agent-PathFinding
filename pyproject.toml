@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pymapf"
-description = "Multi-agent path finding: solvers (CBS, weighted CBS, PIBT, LaCAM, LNS), decentralized swarm control, and a multi-agent RL environment benchmarked against the optimal planner"
+description = "A 2D multi-agent pathfinding research and simulation platform with prioritized planning, CBS, and MAPPO"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
@@ -13,10 +13,9 @@ keywords = [
     "multi-agent",
     "path-finding",
     "mapf",
-    "planning",
+    "prioritized-planning",
     "cbs",
-    "robotics",
-    "swarm",
+    "mappo",
     "reinforcement-learning",
 ]
 classifiers = [
@@ -34,48 +33,24 @@ classifiers = [
     "Framework :: Pytest",
 ]
 
-# The centralized framework (core, algorithms, scenarios, benchmark) is pure
-# standard library on purpose: that is what lets the solvers run in CI, on a
-# robot, and in the browser under Pyodide with nothing to build. Everything
-# needing a third-party package is an extra, and `pip install pymapf` stays
-# dependency-free.
+# The planning framework is pure standard library. Only the RL layer needs
+# NumPy, which is exposed as an optional extra below.
 dependencies = []
 
-# Single source of truth. The version lived in both setup.py and
-# pymapf/__init__.py and had already drifted apart once -- setup.py said 0.3.0
-# while the package reported 0.5.0 -- which is exactly the kind of mistake that
-# ships a mislabelled artifact. setuptools reads the literal statically, so this
-# does not import the package at build time.
+# Single source of truth for the version. setuptools reads the literal
+# statically, so this does not import the package at build time.
 dynamic = ["version"]
 
 [project.optional-dependencies]
-viz = ["matplotlib>=3.4"]
-decentralized = ["numpy>=1.20", "scipy>=1.6"]
 rl = ["numpy>=1.20"]
 rl-torch = ["numpy>=1.20", "torch>=1.13"]
 rl-ecosystem = ["numpy>=1.20", "gymnasium>=0.29", "pettingzoo>=1.24"]
-legacy = [
-    "numpy>=1.20",
-    "scipy>=1.6",
-    "matplotlib>=3.4",
-    "coloredlogs>=15.0",
-    "termcolor>=1.1",
-]
-all = [
-    "matplotlib>=3.4",
-    "numpy>=1.20",
-    "scipy>=1.6",
-    "coloredlogs>=15.0",
-    "termcolor>=1.1",
-]
-dev = ["pytest>=6.0", "pytest-cov", "build", "twine"]
+dev = ["pytest>=6.0"]
 
 [project.urls]
-Homepage = "https://github.com/openplan-labs/pymapf"
-Playground = "https://openplan-labs.github.io/pymapf/"
-Source = "https://github.com/openplan-labs/pymapf"
-Changelog = "https://github.com/openplan-labs/pymapf/blob/main/CHANGELOG.md"
-Survey = "https://github.com/openplan-labs/pymapf/blob/main/.docs/survey-v2.md"
+Homepage = "https://github.com/Shoaib9124/Multi-Agent-PathFinding"
+Source = "https://github.com/Shoaib9124/Multi-Agent-PathFinding"
+Changelog = "https://github.com/Shoaib9124/Multi-Agent-PathFinding/blob/main/CHANGELOG.md"
 
 [tool.setuptools.dynamic]
 version = { attr = "pymapf.__version__" }
