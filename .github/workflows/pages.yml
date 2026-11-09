@@ -5,15 +5,20 @@ name: playground
 # The site loads the library's own source at runtime, so the bundle is rebuilt
 # here rather than trusted from the commit: a merge that changes a solver and
 # forgets to run scripts/build_web_bundle.py still ships a correct playground.
+#
+# GitHub Pages must be enabled first:
+#   Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+# Until then this workflow is manual-only so it does not fail on every push.
+# After enabling Pages, uncomment the `push:` block below.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.docs/**'
-      - 'pymapf/**'
-      - '.github/workflows/pages.yml'
   workflow_dispatch:
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - '.docs/**'
+  #     - 'pymapf/**'
+  #     - '.github/workflows/pages.yml'
 
 permissions:
   contents: read
@@ -28,9 +33,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
@@ -47,9 +52,9 @@ jobs:
           print("bundle: %d modules, pymapf %s" % (len(bundle["files"]), bundle["version"]))
           PY
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: .docs
 
@@ -61,4 +66,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
