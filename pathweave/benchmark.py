@@ -2,13 +2,13 @@
 
 Comparing algorithms is the whole point of a framework, so measuring them
 should not require a notebook and a stopwatch. This module runs solvers over
-:mod:`pymapf.scenarios` instances, records cost/time/expansion metrics, and
-returns tabular results that :mod:`pymapf.viz.charts` turns into figures.
+:mod:`pathweave.scenarios` instances, records cost/time/expansion metrics, and
+returns tabular results that can be printed, inspected or exported.
 
 Only the standard library is used (``time.perf_counter`` for timing), so the
 same benchmarks run in CI and in the browser under Pyodide::
 
-    from pymapf.benchmark import compare_algorithms
+    from pathweave.benchmark import compare_algorithms
     report = compare_algorithms(["corner_swap", "warehouse"], ["cbs", "prioritized"])
     print(report.table())
 """
@@ -230,7 +230,7 @@ def compare_algorithms(
 ) -> BenchmarkReport:
     """Run every algorithm on every scenario.
 
-    ``scenarios`` accepts :class:`~pymapf.scenarios.Scenario` objects or names
+    ``scenarios`` accepts :class:`~pathweave.scenarios.Scenario` objects or names
     of registered builders. ``on_result`` is called after each run, which is how
     long benchmarks report progress instead of going quiet for a minute.
     """

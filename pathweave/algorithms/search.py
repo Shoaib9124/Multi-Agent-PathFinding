@@ -1,10 +1,8 @@
 """Single-agent graph search: the primitives every MAPF solver stands on.
 
-These operate on anything with the map interface -- a
-:class:`~pymapf.core.grid.GridMap` or a
-:class:`~pymapf.core.graph.ExplicitGraph` -- and none of them know about time
-or other agents. The space-time versions live in
-:mod:`pymapf.algorithms.space_time_astar` and :mod:`pymapf.algorithms.sipp`.
+These operate on a :class:`~pathweave.core.grid.GridMap` and none of them
+know about time or other agents. The space-time version used by both MAPF
+planners lives in :mod:`pathweave.algorithms.space_time_astar`.
 
 References
 ----------
@@ -158,8 +156,8 @@ def focal_astar(
     OPEN keeps the admissible lower bound; FOCAL holds the nodes within
     ``weight`` times that bound and is ordered by ``tie_breaker`` (default:
     fewest expansions to the goal, i.e. plain ``h``). The path is still within
-    ``weight`` of optimal -- this is the single-agent shape of what ECBS and
-    :class:`~pymapf.algorithms.weighted_cbs.WeightedCBS` do on the high level.
+    ``weight`` of optimal -- this is the single-agent shape of bounded-suboptimal
+    MAPF search.
     """
     if weight < 1.0:
         raise ValueError("weight must be >= 1.0")

@@ -2,14 +2,14 @@
 
 A solver's inner loop is where all the interesting behaviour lives -- which
 node CBS expanded, which conflict it found, which agent it re-planned -- but
-none of it is visible from a returned :class:`~pymapf.core.solver.Solution`.
+none of it is visible from a returned :class:`~pathweave.core.solver.Solution`.
 This module adds a *push* interface for that information:
 
 * :class:`SearchEvent` is a single, immutable observation;
 * an **observer** is any callable taking one :class:`SearchEvent`;
 * :class:`SearchTrace` is the batteries-included observer that records
-  everything so it can be replayed later (used by the animated search views in
-  :mod:`pymapf.viz`).
+  everything so it can be replayed later (used by the animated browser search
+  views and execution logs).
 
 Observing is strictly opt-in: passing no observer costs one ``if`` per event.
 
@@ -56,10 +56,10 @@ class SearchTrace:
     """An observer that records events, with a few convenience aggregates.
 
     Use it directly as the ``observer`` argument of
-    :meth:`~pymapf.core.solver.MAPFSolver.solve`::
+    :meth:`~pathweave.core.solver.MAPFSolver.solve`::
 
         trace = SearchTrace()
-        solution = pymapf.solve(problem, "cbs", observer=trace)
+        solution = pathweave.solve(problem, "cbs", observer=trace)
         print(len(trace), trace.conflicts)
     """
 

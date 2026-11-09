@@ -1,21 +1,18 @@
 """Pluggable, admissible grid heuristics.
 
-All heuristics operate on integer cells of any dimension -- ``(row, col)`` on
-a :class:`~pymapf.core.grid.GridMap`, ``(layer, row, col)`` on a
-:class:`~pymapf.core.voxel.VoxelGrid`, and anything longer -- and return a
-float estimate of the cost to travel between them. They are registered by name
-so that solvers can be configured with a string (e.g. ``"manhattan"``) instead
-of hard-coding a single global heuristic as the legacy ``common.HEURISTIC``
-flag did.
+All heuristics operate on 2D integer cells ``(row, col)`` of a
+:class:`~pathweave.core.grid.GridMap` and return a float estimate of the cost
+to travel between them. They are registered by name so that solvers can be
+configured with a string (e.g. ``"manhattan"``).
 
-Coordinate convention across the framework: a cell is ``(row, col)`` which maps
-to ``grid[row][col]`` (i.e. ``(y, x)``); a voxel prepends the layer.
+Coordinate convention: a cell is ``(row, col)`` which maps to ``grid[row][col]``
+(i.e. ``(y, x)``).
 
 Which one is admissible depends on the move set and on the unit edge cost the
-solvers use: ``manhattan`` for face-adjacent moves (4 on a plane, 6 in a
-volume), ``chebyshev`` when diagonals are allowed (8 or 26), ``euclidean``
-always. ``octile`` prices a planar diagonal at ``sqrt 2`` and so overestimates
-under unit cost; it is kept for the classic grid-search convention.
+solvers use: ``manhattan`` for the 4-connected grid used here, ``chebyshev``
+when diagonals are allowed, ``euclidean`` always. ``octile`` prices a planar
+diagonal at ``sqrt 2`` and so overestimates under unit cost; it is kept for the
+classic grid-search convention.
 """
 
 from __future__ import annotations
@@ -67,9 +64,8 @@ def true_distance(graph, goal: Cell, allow_diagonals: bool = False) -> Heuristic
 
     Runs one backward Dijkstra from the goal and closes over the resulting
     table, so it costs O(V log V) once and O(1) per query. Unlike the geometric
-    heuristics it accounts for walls, which is what makes it the right default
-    on mazes and the *only* option on a graph without coordinates
-    (:class:`~pymapf.core.graph.ExplicitGraph`).
+    heuristics it accounts for walls, which makes it the right default on mazes
+    and other obstacle-heavy maps where geometric distance is misleading.
 
     Nodes from which the goal is unreachable get ``inf``, which prunes them
     from any search that uses this heuristic.

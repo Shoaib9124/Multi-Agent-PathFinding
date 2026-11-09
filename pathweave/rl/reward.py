@@ -2,7 +2,7 @@
 
 The interesting one here is :class:`ShapedReward`, and it is interesting
 because of something this library happens to own: an *exact* distance-to-goal
-oracle. :func:`pymapf.core.heuristics.true_distance` runs a backward Dijkstra
+oracle. :func:`pathweave.core.heuristics.true_distance` runs a backward Dijkstra
 over the real grid, so it knows the true remaining cost from every cell,
 obstacles and all -- not a Manhattan guess.
 
@@ -188,7 +188,7 @@ class ShapedReward(SparseReward):
     def _table_for(self, env, goal):
         table = self._potentials.get(goal)
         if table is None:
-            from pymapf.algorithms.search import distance_table
+            from pathweave.algorithms.search import distance_table
 
             # The backward Dijkstra behind `true_distance`, used directly: the
             # table is what we want, and it is goal-specific either way.

@@ -3,19 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PyMAPF — 2D Multi-Agent Pathfinding Research &amp; Simulation Platform</title>
+<title>PathWeave &mdash; Multi-Agent Pathfinding Research &amp; Simulation Platform</title>
 <meta name="description" content="Interactive 2D Multi-Agent Pathfinding research platform comparing Prioritized Space-Time A*, Conflict-Based Search (CBS), and Multi-Agent PPO (MAPPO) on identical problem instances.">
-<meta property="og:title" content="PyMAPF — 2D Multi-Agent Pathfinding Research &amp; Simulation Platform">
+<meta property="og:title" content="PathWeave &mdash; Multi-Agent Pathfinding Research &amp; Simulation Platform">
 <meta property="og:description" content="Configure a 2D grid, define agents and goals, and compare Prioritized A*, Conflict-Based Search, and MAPPO side by side with formal solution validation.">
 <meta property="og:type" content="website">
-<link rel="icon" href="assets/favicon.svg">
+<link rel="icon" href="assets/pathweave-logo.svg">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="top">
   <div class="wrap top-inner">
-    <a href="#setup" class="brand-title" data-nav-page="setup">PyMAPF Research Workbench</a>
+    <a href="#setup" class="brand-title" data-nav-page="setup">
+      <img class="brand-logo" src="assets/pathweave-logo.svg" alt="" aria-hidden="true">
+      <span>PathWeave</span>
+    </a>
     <nav class="top-nav page-tabs" aria-label="Primary workflow navigation">
       <button type="button" class="nav-tab active" data-nav-page="setup" id="tab-btn-setup">
         <span class="step-num">01</span> Setup &amp; Workspace
@@ -492,7 +495,7 @@
         <div>
           <h2>A. Active Problem Instance — Metrics &amp; Formal Solution Validation Audit</h2>
           <p class="sub">
-            Audited by <code>pymapf.core.validate_solution</code> against obstacle bounds, cardinal movement rules, vertex/edge-swap conflict freedom, and one-shot stay-at-goal occupancy.
+            Audited by <code>pathweave.core.validate_solution</code> against obstacle bounds, cardinal movement rules, vertex/edge-swap conflict freedom, and one-shot stay-at-goal occupancy.
           </p>
         </div>
       </div>
@@ -745,7 +748,7 @@
 
 <footer>
   <div class="wrap">
-    <span>PyMAPF 2D Research &amp; Simulation Platform — Adapted from PyMAPF (MIT / Apache-2.0) for Multi-Agent Pathfinding Research.</span>
+    <span>PathWeave &mdash; Multi-Agent Pathfinding Research &amp; Simulation Platform. Built on the open-source PyMAPF library (MIT / Apache-2.0).</span>
     <nav>
       <a href="#setup" data-nav-page="setup">01. Setup &amp; Workspace</a>
       <a href="#simulation" data-nav-page="simulation">02. Simulation &amp; Logs</a>

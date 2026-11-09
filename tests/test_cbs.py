@@ -3,8 +3,8 @@ from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
-from pymapf.algorithms.cbs import ConflictBasedSearch
-from pymapf.core import Agent, GridMap, MAPFProblem
+from pathweave.algorithms.cbs import ConflictBasedSearch
+from pathweave.core import Agent, GridMap, MAPFProblem
 
 
 def _open(n):

@@ -20,7 +20,7 @@ import pytest
 
 np = pytest.importorskip("numpy")
 
-from pymapf.rl import (
+from pathweave.rl import (
     IPPO,
     MAPPO,
     MAPFEnv,
@@ -31,7 +31,7 @@ from pymapf.rl import (
     make_actor_critic,
     make_trainer,
 )
-from pymapf.rl.networks import MLP, Adam, NumpyActorCritic, _log_softmax
+from pathweave.rl.networks import MLP, Adam, NumpyActorCritic, _log_softmax
 
 BACKENDS = available_backends()
 CLIP, VALUE_COEFFICIENT, ENTROPY_COEFFICIENT = 0.2, 0.5, 0.01
@@ -145,7 +145,7 @@ def test_network_parameters_are_contiguous():
 
 @pytest.mark.parametrize("shape", [(3, 8), (8, 3), (5, 5), (1, 6)])
 def test_orthogonal_initialisation_handles_any_shape(shape):
-    from pymapf.rl.networks import _orthogonal
+    from pathweave.rl.networks import _orthogonal
 
     matrix = _orthogonal(shape, 1.0, np.random.default_rng(0))
     assert matrix.shape == shape
@@ -164,7 +164,7 @@ def test_adam_descends_a_quadratic():
 
 
 def test_gradient_clipping_bounds_the_global_norm():
-    from pymapf.rl.networks import _clip_global_norm
+    from pathweave.rl.networks import _clip_global_norm
 
     gradients = [np.full((4,), 10.0), np.full((4,), 10.0)]
     _clip_global_norm(gradients, 1.0)
@@ -345,7 +345,7 @@ def test_an_unknown_backend_is_rejected():
 
 def test_planner_failures_are_absorbed_but_bugs_are_not():
     """`plan` must not swallow a programming error as "unsolvable"."""
-    from pymapf.rl.evaluate import plan
+    from pathweave.rl.evaluate import plan
 
     env = MAPFEnv("empty_room", height=6, width=6, n_agents=2, randomise=False)
     env.reset(seed=0)

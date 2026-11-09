@@ -1,10 +1,10 @@
-"""PyMAPF: a 2D Multi-Agent Pathfinding research and simulation library.
+"""PathWeave: a 2D Multi-Agent Pathfinding research and simulation library.
 
-The :mod:`pymapf.core` package defines the shared 2D problem and validation
+The :mod:`pathweave.core` package defines the shared 2D problem and validation
 framework (``GridMap``, ``MAPFProblem``, ``Solution``, ``ValidationReport``,
 ``validate_solution``, and the solver registry). Concrete algorithms live in
-:mod:`pymapf.algorithms` (Prioritized Planning using Space-Time A* and
-Conflict-Based Search) and :mod:`pymapf.rl` (Multi-Agent PPO).
+:mod:`pathweave.algorithms` (Prioritized Planning using Space-Time A* and
+Conflict-Based Search) and :mod:`pathweave.rl` (Multi-Agent PPO).
 """
 
 from .core import (

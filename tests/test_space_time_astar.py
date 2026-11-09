@@ -3,9 +3,9 @@ from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
-from pymapf.algorithms.space_time_astar import space_time_astar
-from pymapf.core.grid import GridMap
-from pymapf.core.solver import Constraints
+from pathweave.algorithms.space_time_astar import space_time_astar
+from pathweave.core.grid import GridMap
+from pathweave.core.solver import Constraints
 
 
 def test_straight_line():

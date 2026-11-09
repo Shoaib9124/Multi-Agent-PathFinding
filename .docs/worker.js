@@ -1,10 +1,10 @@
 /**
- * worker.js — runs the real PyMAPF inside Pyodide, off the main thread.
+ * worker.js — runs the real PathWeave inside Pyodide, off the main thread.
  *
  * The page never freezes during a solve, and search events are streamed back as
  * they are emitted, which is what makes the live view live rather than a replay.
  *
- * The library is not pip-installed: `pymapf-bundle.json` carries the actual
+ * The library is not pip-installed: `pathweave-bundle.json` carries the actual
  * source files of the pure-Python modules (built by scripts/build_web_bundle.py)
  * and they are written straight into Pyodide's virtual filesystem. That keeps
  * the download to a few tens of kB and guarantees the page runs the same code
@@ -43,9 +43,9 @@ async function init() {
   post({ type: 'status', stage: 'downloading', detail: 'fetching Python runtime' });
   pyodide = await loadPyodideRuntime();
 
-  post({ type: 'status', stage: 'installing', detail: 'installing pymapf' });
-  const response = await fetch('pymapf-bundle.json', { cache: 'no-cache' });
-  if (!response.ok) throw new Error(`could not fetch pymapf bundle (${response.status})`);
+  post({ type: 'status', stage: 'installing', detail: 'installing pathweave' });
+  const response = await fetch('pathweave-bundle.json', { cache: 'no-cache' });
+  if (!response.ok) throw new Error(`could not fetch pathweave bundle (${response.status})`);
   const bundle = await response.json();
   bundleVersion = bundle.version;
 
@@ -58,16 +58,16 @@ async function init() {
   await pyodide.runPythonAsync(`
 import sys
 sys.path.insert(0, "/lib")
-import pymapf
+import pathweave
 `);
 
   // The bridge lives in Python so the solve loop never round-trips through JS
   // except to emit events.
   await pyodide.runPythonAsync(`
 import json, time
-import pymapf
-from pymapf.core import Agent, GridMap, MAPFProblem, validate_solution
-from pymapf.benchmark import _supported
+import pathweave
+from pathweave.core import Agent, GridMap, MAPFProblem, validate_solution
+from pathweave.benchmark import _supported
 
 
 def _problem(spec):
@@ -116,7 +116,7 @@ def run_solver(spec_json, sink):
     options = _supported(algorithm, spec.get("options") or {})
     observer = _Streamer(sink, every=spec.get("every", 1))
     started = time.perf_counter()
-    solution = pymapf.solve(problem, algorithm, observer=observer, **options)
+    solution = pathweave.solve(problem, algorithm, observer=observer, **options)
     elapsed = time.perf_counter() - started
     if solution is None:
         report = validate_solution(problem, None)
@@ -140,7 +140,7 @@ def run_solver(spec_json, sink):
 
 
 def run_benchmark(spec_json, progress):
-    from pymapf.benchmark import scaling_study
+    from pathweave.benchmark import scaling_study
     spec = json.loads(spec_json)
     rows = []
 
@@ -159,8 +159,8 @@ def run_benchmark(spec_json, progress):
     return json.dumps(rows)
 `);
 
-  const version = pyodide.runPython('pymapf.__version__');
-  const solvers = pyodide.runPython('__import__("json").dumps(pymapf.available_solvers())');
+  const version = pyodide.runPython('pathweave.__version__');
+  const solvers = pyodide.runPython('__import__("json").dumps(pathweave.available_solvers())');
   post({
     type: 'ready',
     version,

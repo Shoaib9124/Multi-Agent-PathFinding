@@ -1,6 +1,8 @@
-# PyMAPF — 2D Multi-Agent Pathfinding Research & Simulation Platform
+# PathWeave — Multi-Agent Pathfinding Research & Simulation Platform
 
-A focused, reproducible 2D Multi-Agent Pathfinding (MAPF) research and simulation platform built on top of `pymapf` for controlled algorithmic evaluation, side-by-side visualization, and experimental benchmarking.
+<p align="center"><img src=".docs/assets/pathweave-logo.svg" alt="PathWeave logo" width="96"></p>
+
+PathWeave is a focused, reproducible 2D Multi-Agent Pathfinding (MAPF) research and simulation platform for controlled algorithmic evaluation, side-by-side visualization, and experimental benchmarking. The Python package is imported as `pathweave`.
 
 ---
 
@@ -12,15 +14,15 @@ A focused, reproducible 2D Multi-Agent Pathfinding (MAPF) research and simulatio
   - Enforces strict validity invariants in real time: agents cannot be placed on obstacles, no two agents may share a start cell, and no two agents may share a goal cell.
 
 - **Three Target Algorithmic Approaches**:
-  1. **Prioritized Planning (`prioritized`)**: Sequential Space-Time A* with a dynamic vertex/edge reservation table (`pymapf/algorithms/prioritized_planning.py` & `pymapf/algorithms/space_time_astar.py`). Fast classical baseline; incomplete under adversarial priority orderings.
-  2. **Conflict-Based Search (`cbs`)**: Canonical two-level solver (`pymapf/algorithms/cbs.py`) combining high-level best-first constraint-tree search over sum-of-costs with low-level Space-Time A* (`space_time_astar.py`). Complete and provably optimal for sum-of-costs.
-  3. **Multi-Agent Proximal Policy Optimization (`mappo`)**: Centralized-training, decentralized-execution (CTDE) reinforcement learning (`pymapf/rl/algorithms.py`, `pymapf/rl/networks.py`, `pymapf/rl/env.py`). Uses a centralized value critic over the normalized global state (`5 * N + 1` features) during training and a shared actor over `9×9` egocentric 4-channel local windows + normalized goal vectors (`327` features) at execution time. Supports both a **pre-trained general policy** (`.docs/assets/mappo-policy.json`) and **live on-instance training**, with user-selectable **Greedy (argmax)** or **Sampled (stochastic)** rollout modes.
+  1. **Prioritized Planning (`prioritized`)**: Sequential Space-Time A* with a dynamic vertex/edge reservation table (`pathweave/algorithms/prioritized_planning.py` & `pathweave/algorithms/space_time_astar.py`). Fast classical baseline; incomplete under adversarial priority orderings.
+  2. **Conflict-Based Search (`cbs`)**: Canonical two-level solver (`pathweave/algorithms/cbs.py`) combining high-level best-first constraint-tree search over sum-of-costs with low-level Space-Time A* (`space_time_astar.py`). Complete and provably optimal for sum-of-costs.
+  3. **Multi-Agent Proximal Policy Optimization (`mappo`)**: Centralized-training, decentralized-execution (CTDE) reinforcement learning (`pathweave/rl/algorithms.py`, `pathweave/rl/networks.py`, `pathweave/rl/env.py`). Uses a centralized value critic over the normalized global state (`5 * N + 1` features) during training and a shared actor over `9×9` egocentric 4-channel local windows + normalized goal vectors (`327` features) at execution time. Supports both a **pre-trained general policy** (`.docs/assets/mappo-policy.json`) and **live on-instance training**, with user-selectable **Greedy (argmax)** or **Sampled (stochastic)** rollout modes.
 
 - **Synchronized 3-Panel Comparison & Playback**:
   - Configure a problem once and click **Run Comparison** to solve the exact same instance across Prioritized A*, CBS, and MAPPO, then scrub or play back all three trajectories simultaneously on a unified discrete timeline (`t = 0 … H_max`).
   - Run any single algorithm independently via **Run Single Algorithm**.
 
-- **Formal Solution Validator (`pymapf.core.validate_solution`)**:
+- **Formal Solution Validator (`pathweave.core.validate_solution`)**:
   - Every solution path or RL rollout is audited against 6 formal MAPF validity rules:
     1. **In-bounds & Obstacle-Free**: Every visited cell `(r, c)` is within grid bounds and not an obstacle.
     2. **Legal 4-Connected Moves**: Every transition from `t` to `t+1` is either a cardinal step (`|dr| + |dc| == 1`) or a wait action (`(0, 0)`), starting at `agent.start`.
@@ -41,7 +43,7 @@ A focused, reproducible 2D Multi-Agent Pathfinding (MAPF) research and simulatio
 ├── main.py                              # Web server (0.0.0.0:3000) & CLI entry point
 ├── requirements.txt                     # NumPy and pytest
 ├── pyproject.toml                       # Package metadata & pytest configuration
-├── pymapf/
+├── pathweave/
 │   ├── __init__.py                      # Public 2D package exports & solve() helper
 │   ├── scenarios.py                     # 6 deterministic 2D scenario builders & ASCII parser
 │   ├── benchmark.py                     # Solver benchmarking & scaling study utilities
@@ -71,12 +73,12 @@ A focused, reproducible 2D Multi-Agent Pathfinding (MAPF) research and simulatio
 │   ├── app.js                           # Grid editor, synchronized 3-panel playback & batch runner UI
 │   ├── mapf.js                          # In-browser fallback solvers & MAPPO inference engine
 │   ├── worker.js                        # Web Worker for Pyodide / JS execution
-│   ├── pymapf-bundle.json               # Generated bundle of pure-stdlib pymapf modules
+│   ├── pathweave-bundle.json               # Generated bundle of pure-stdlib pathweave modules
 │   └── assets/
 │       ├── favicon.svg                  # Application icon
 │       └── mappo-policy.json            # Pre-trained MAPPO actor-critic checkpoint
 ├── scripts/
-│   ├── build_web_bundle.py              # Regenerates .docs/pymapf-bundle.json
+│   ├── build_web_bundle.py              # Regenerates .docs/pathweave-bundle.json
 │   └── train_rl.py                      # CLI training & evaluation script for MAPPO/IPPO
 └── tests/                               # Unit & integration test suite
 ```
@@ -117,7 +119,7 @@ python -m pytest -q
 
 ### Rebuild the Browser Python Bundle
 
-After modifying `pymapf/core`, `pymapf/algorithms`, `pymapf/scenarios.py`, or `pymapf/benchmark.py`:
+After modifying `pathweave/core`, `pathweave/algorithms`, `pathweave/scenarios.py`, or `pathweave/benchmark.py`:
 
 ```bash
 python scripts/build_web_bundle.py

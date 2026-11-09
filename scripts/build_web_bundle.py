@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-"""Bundle the pure-Python part of PyMAPF for the browser playground.
+"""Bundle the pure-Python part of PathWeave for the browser playground.
 
 The web playground runs the *real* library under Pyodide rather than a
 JavaScript re-implementation, which is only possible because the solvers depend
 on nothing but the standard library. This script collects those modules into a
 single JSON file that the page writes into Pyodide's virtual filesystem.
 
-Modules that need matplotlib/numpy (``pymapf.viz``, ``pymapf.decentralized``)
-are deliberately excluded: pulling them in would drag megabytes of wheels into
-the page for code the playground never calls.
+Modules that need NumPy or plotting are deliberately excluded: pulling them
+into the page would drag extra wheels in for code the playground never calls.
 
-    python scripts/build_web_bundle.py [--output .docs/pymapf-bundle.json]
+    python scripts/build_web_bundle.py [--output .docs/pathweave-bundle.json]
 """
 
 from __future__ import annotations
@@ -26,19 +25,19 @@ sys.path.insert(0, ROOT)
 
 # Every module the playground can reach, in import order.
 MODULES = [
-    "pymapf/__init__.py",
-    "pymapf/core/__init__.py",
-    "pymapf/core/grid.py",
-    "pymapf/core/heuristics.py",
-    "pymapf/core/trace.py",
-    "pymapf/core/solver.py",
-    "pymapf/algorithms/__init__.py",
-    "pymapf/algorithms/search.py",
-    "pymapf/algorithms/space_time_astar.py",
-    "pymapf/algorithms/prioritized_planning.py",
-    "pymapf/algorithms/cbs.py",
-    "pymapf/scenarios.py",
-    "pymapf/benchmark.py",
+    "pathweave/__init__.py",
+    "pathweave/core/__init__.py",
+    "pathweave/core/grid.py",
+    "pathweave/core/heuristics.py",
+    "pathweave/core/trace.py",
+    "pathweave/core/solver.py",
+    "pathweave/algorithms/__init__.py",
+    "pathweave/algorithms/search.py",
+    "pathweave/algorithms/space_time_astar.py",
+    "pathweave/algorithms/prioritized_planning.py",
+    "pathweave/algorithms/cbs.py",
+    "pathweave/scenarios.py",
+    "pathweave/benchmark.py",
 ]
 
 
@@ -49,7 +48,7 @@ def build(output: str) -> dict:
         with open(path, encoding="utf-8") as handle:
             files[relative] = handle.read()
 
-    from pymapf import __version__
+    from pathweave import __version__
 
     payload = {
         "version": __version__,
@@ -65,7 +64,7 @@ def build(output: str) -> dict:
 
     size = os.path.getsize(output)
     print(
-        "wrote %s  (%d modules, %.1f kB, pymapf %s, digest %s)"
+        "wrote %s  (%d modules, %.1f kB, pathweave %s, digest %s)"
         % (output, len(files), size / 1024, payload["version"], payload["digest"])
     )
     return payload
@@ -75,8 +74,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--output",
-        default=os.path.join(ROOT, ".docs", "pymapf-bundle.json"),
-        help="destination JSON file (default: .docs/pymapf-bundle.json)",
+        default=os.path.join(ROOT, ".docs", "pathweave-bundle.json"),
+        help="destination JSON file (default: .docs/pathweave-bundle.json)",
     )
     args = parser.parse_args()
     build(args.output)

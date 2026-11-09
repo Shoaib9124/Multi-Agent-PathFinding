@@ -5,7 +5,7 @@ CBS is the canonical two-level optimal MAPF algorithm (Sharon et al., 2015):
 * the **high level** searches a binary constraint tree, best-first on
   sum-of-costs; each node holds a set of constraints per agent;
 * the **low level** replans a single agent under its constraints using the
-  shared :func:`~pymapf.algorithms.space_time_astar.space_time_astar`.
+  shared :func:`~pathweave.algorithms.space_time_astar.space_time_astar`.
 
 On each expansion we find the first conflict in the current joint plan and
 branch by forbidding one of the two involved agents from that (vertex or edge)

@@ -2,7 +2,7 @@
 
 This is the part that is hard to do honestly without owning the domain, and
 easy once you do. Every learned rollout comes back as a
-:class:`pymapf.Solution`, so:
+:class:`pathweave.Solution`, so:
 
 * **validity** is checked by ``Solution.is_valid()`` -- the same conflict
   detector that validates CBS output. A learned policy cannot quietly score
@@ -134,12 +134,12 @@ def plan(problem, algorithm: str, time_limit: float = 5.0):
     and the ones that do not signal it with a ``TypeError`` from construction
     rather than advertising it.
     """
-    import pymapf
+    import pathweave
 
     try:
-        solver = pymapf.get_solver(algorithm, time_limit=time_limit)
+        solver = pathweave.get_solver(algorithm, time_limit=time_limit)
     except TypeError:
-        solver = pymapf.get_solver(algorithm)
+        solver = pathweave.get_solver(algorithm)
 
     try:
         solution = solver.solve(problem)
@@ -381,7 +381,7 @@ def compare_lifelong(
     sees the same seeds, hence the same maps *and the same sequence of
     re-tasking*, because the goals are drawn from the environment's own RNG.
 
-    Baselines are planners wrapped as policies (:mod:`pymapf.rl.baselines`):
+    Baselines are planners wrapped as policies (:mod:`pathweave.rl.baselines`):
     ``"pibt"`` re-decides every step, and any other registered solver name
     replans from the current configuration whenever a goal changes.
     """

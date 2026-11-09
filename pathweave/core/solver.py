@@ -1,6 +1,6 @@
 """Core framework types shared by every centralized MAPF algorithm.
 
-This module defines the small, stable vocabulary that makes PyMAPF usable as a
+This module defines the small, stable vocabulary that makes PathWeave usable as a
 framework: a :class:`MAPFProblem` (the input), a :class:`Solution` (the output),
 :class:`Constraints` (used by constraint-based low-level search), conflict
 detection utilities, an abstract :class:`MAPFSolver`, and a name-based solver
@@ -468,8 +468,8 @@ class MAPFSolver(ABC):
         """Return a :class:`Solution` or ``None`` if the instance is unsolved.
 
         ``observer`` is an optional callable receiving
-        :class:`~pymapf.core.trace.SearchEvent` objects as the search runs; it
-        is what the live views in :mod:`pymapf.viz` subscribe to.
+        :class:`~pathweave.core.trace.SearchEvent` objects as the search runs; it
+        is what the browser UI and search traces subscribe to.
         """
         raise NotImplementedError
 

@@ -13,24 +13,24 @@ The algorithms implemented in this repository and the work they are based on.
 
 | Algorithm | Module | Reference |
 |---|---|---|
-| Dijkstra | `pymapf.algorithms.search.dijkstra` | Dijkstra, E. W. 1959. *A note on two problems in connexion with graphs.* Numerische Mathematik 1(1): 269–271. |
-| A* | `pymapf.algorithms.search.astar` | Hart, P. E.; Nilsson, N. J.; and Raphael, B. 1968. *A formal basis for the heuristic determination of minimum cost paths.* IEEE Transactions on Systems Science and Cybernetics 4(2): 100–107. |
-| Space-Time A* | `pymapf.algorithms.space_time_astar` | Silver, D. 2005. *Cooperative pathfinding.* AIIDE 2005: 117–122. |
+| Dijkstra | `pathweave.algorithms.search.dijkstra` | Dijkstra, E. W. 1959. *A note on two problems in connexion with graphs.* Numerische Mathematik 1(1): 269–271. |
+| A* | `pathweave.algorithms.search.astar` | Hart, P. E.; Nilsson, N. J.; and Raphael, B. 1968. *A formal basis for the heuristic determination of minimum cost paths.* IEEE Transactions on Systems Science and Cybernetics 4(2): 100–107. |
+| Space-Time A* | `pathweave.algorithms.space_time_astar` | Silver, D. 2005. *Cooperative pathfinding.* AIIDE 2005: 117–122. |
 
 ## Multi-agent planners
 
 | Algorithm | Module | Reference |
 |---|---|---|
-| Prioritized Planning | `pymapf.algorithms.prioritized_planning` | Silver, D. 2005. *Cooperative pathfinding.* AIIDE 2005: 117–122. |
-| Conflict-Based Search (CBS) | `pymapf.algorithms.cbs` | Sharon, G.; Stern, R.; Felner, A.; and Sturtevant, N. R. 2015. *Conflict-based search for optimal multi-agent pathfinding.* Artificial Intelligence 219: 40–66. |
+| Prioritized Planning | `pathweave.algorithms.prioritized_planning` | Silver, D. 2005. *Cooperative pathfinding.* AIIDE 2005: 117–122. |
+| Conflict-Based Search (CBS) | `pathweave.algorithms.cbs` | Sharon, G.; Stern, R.; Felner, A.; and Sturtevant, N. R. 2015. *Conflict-based search for optimal multi-agent pathfinding.* Artificial Intelligence 219: 40–66. |
 
 ## Learning-based planning
 
 | Algorithm | Module | Reference |
 |---|---|---|
-| Proximal Policy Optimization (PPO) | `pymapf.rl.algorithms` | Schulman, J.; Wolski, F.; Dhariwal, P.; Radford, A.; and Klimov, O. 2017. *Proximal Policy Optimization Algorithms.* arXiv:1707.06347. |
-| Generalized Advantage Estimation (GAE) | `pymapf.rl.algorithms` | Schulman, J.; Moritz, P.; Levine, S.; Jordan, M.; and Abbeel, P. 2016. *High-Dimensional Continuous Control Using Generalized Advantage Estimation.* ICLR 2016. |
-| Multi-Agent PPO (MAPPO) | `pymapf.rl.algorithms` | Yu, C.; Velu, A.; Vinitsky, E.; Gao, J.; Wang, Y.; Bayen, A.; and Wu, Y. 2022. *The Surprising Effectiveness of PPO in Cooperative Multi-Agent Games.* NeurIPS 2022. arXiv:2103.01955. |
+| Proximal Policy Optimization (PPO) | `pathweave.rl.algorithms` | Schulman, J.; Wolski, F.; Dhariwal, P.; Radford, A.; and Klimov, O. 2017. *Proximal Policy Optimization Algorithms.* arXiv:1707.06347. |
+| Generalized Advantage Estimation (GAE) | `pathweave.rl.algorithms` | Schulman, J.; Moritz, P.; Levine, S.; Jordan, M.; and Abbeel, P. 2016. *High-Dimensional Continuous Control Using Generalized Advantage Estimation.* ICLR 2016. |
+| Multi-Agent PPO (MAPPO) | `pathweave.rl.algorithms` | Yu, C.; Velu, A.; Vinitsky, E.; Gao, J.; Wang, Y.; Bayen, A.; and Wu, Y. 2022. *The Surprising Effectiveness of PPO in Cooperative Multi-Agent Games.* NeurIPS 2022. arXiv:2103.01955. |
 
 ## Implementation notes
 

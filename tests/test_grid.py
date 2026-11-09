@@ -5,7 +5,7 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import pytest
 
-from pymapf.core.grid import GridMap
+from pathweave.core.grid import GridMap
 
 
 def test_dimensions_and_free_cells():

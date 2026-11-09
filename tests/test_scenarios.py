@@ -5,7 +5,7 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import pytest
 
-from pymapf.scenarios import (
+from pathweave.scenarios import (
     SCENARIO_BUILDERS,
     available_scenarios,
     build_scenario,
@@ -48,7 +48,7 @@ def test_agents_start_apart_from_their_goals():
 
 
 def test_maze_is_fully_connected_between_agent_endpoints():
-    from pymapf.algorithms import space_time_astar
+    from pathweave.algorithms import space_time_astar
 
     scenario = build_scenario("maze", seed=4)
     for agent in scenario.agents:

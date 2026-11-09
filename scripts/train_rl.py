@@ -28,8 +28,8 @@ sys.path.insert(0, ROOT)
 
 import numpy as np  # noqa: E402
 
-import pymapf  # noqa: E402
-from pymapf.rl import MAPFEnv, compare, make_trainer  # noqa: E402
+import pathweave  # noqa: E402
+from pathweave.rl import MAPFEnv, compare, make_trainer  # noqa: E402
 
 # Each setting is a scenario family plus the knobs that make it harder. The
 # progression is deliberate: an open room is a coordination problem only where
@@ -169,7 +169,7 @@ def main() -> int:
     args = parser.parse_args()
 
     print(
-        "PyMAPF RL benchmark  (backend=%s, %d steps/algorithm)"
+        "PathWeave RL benchmark  (backend=%s, %d steps/algorithm)"
         % (args.backend, args.steps)
     )
     results = []
@@ -188,7 +188,7 @@ def main() -> int:
                     {
                         "settings": results,
                         "config": vars(args),
-                        "version": pymapf.__version__,
+                        "version": pathweave.__version__,
                     }
                 ),
                 handle,

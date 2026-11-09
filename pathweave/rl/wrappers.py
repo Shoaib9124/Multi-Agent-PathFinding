@@ -1,6 +1,6 @@
 """Adapters onto the wider ecosystem, and a vectorised runner.
 
-:class:`~pymapf.rl.env.MAPFEnv` already speaks the PettingZoo Parallel API, so
+:class:`~pathweave.rl.env.MAPFEnv` already speaks the PettingZoo Parallel API, so
 these wrappers add interoperability rather than translation: a real
 ``ParallelEnv`` subclass for libraries that type-check against it, a
 single-agent Gymnasium view for the many algorithms that only handle one agent,
@@ -42,7 +42,7 @@ def PettingZooParallel(env: "MAPFEnv"):
         from pettingzoo.utils.env import ParallelEnv
     except ImportError as error:  # pragma: no cover - needs pettingzoo
         raise ImportError(
-            "pettingzoo is not installed; `pip install pymapf[rl]`. MAPFEnv "
+            "pettingzoo is not installed; `pip install pathweave[rl]`. MAPFEnv "
             "already implements the parallel API, so this wrapper is only "
             "needed for code that isinstance-checks against ParallelEnv"
         ) from error

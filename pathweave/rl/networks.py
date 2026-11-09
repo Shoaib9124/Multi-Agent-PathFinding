@@ -374,7 +374,7 @@ class TorchActorCritic(ActorCritic):
             from torch import nn
         except ImportError as error:  # pragma: no cover - needs torch
             raise ImportError(
-                "torch is not installed; `pip install pymapf[rl-torch]`, or use "
+                "torch is not installed; `pip install pathweave[rl-torch]`, or use "
                 "backend='numpy', which needs nothing beyond numpy"
             ) from error
 

@@ -17,7 +17,7 @@ on:
   #   branches: [main]
   #   paths:
   #     - '.docs/**'
-  #     - 'pymapf/**'
+  #     - 'pathweave/**'
   #     - '.github/workflows/pages.yml'
 
 permissions:
@@ -46,10 +46,10 @@ jobs:
         run: |
           python - <<'PY'
           import json
-          bundle = json.load(open(".docs/pymapf-bundle.json"))
+          bundle = json.load(open(".docs/pathweave-bundle.json"))
           missing = [p for p in bundle["files"] if not p.endswith(".py")]
           assert not missing, missing
-          print("bundle: %d modules, pymapf %s" % (len(bundle["files"]), bundle["version"]))
+          print("bundle: %d modules, pathweave %s" % (len(bundle["files"]), bundle["version"]))
           PY
 
       - uses: actions/configure-pages@v6

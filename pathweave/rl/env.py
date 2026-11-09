@@ -9,7 +9,7 @@ in a bare CI job; :meth:`MAPFEnv.to_pettingzoo` wraps it in the real
 
 What makes this worth building rather than reaching for an existing gridworld
 is the last method on the class: :meth:`MAPFEnv.solution`. A rollout comes back
-as a :class:`pymapf.Solution` -- the *same* object CBS returns -- so a learned
+as a :class:`pathweave.Solution` -- the *same* object CBS returns -- so a learned
 policy and an optimal planner are scored by identical code, on identical
 instances, under identical conflict rules. Not a reimplementation of
 sum-of-costs that agrees with the planner's if you read both carefully: the
@@ -42,8 +42,8 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
-from pymapf.core.grid import Cell
-from pymapf.core.solver import Solution
+from pathweave.core.grid import Cell
+from pathweave.core.solver import Solution
 
 from .observation import ObservationEncoder, get_observation
 from .reward import RewardFunction, get_reward
@@ -72,11 +72,11 @@ class MAPFEnv:
     """A MAPF instance as a parallel multi-agent environment.
 
     Args:
-        scenario: a :class:`pymapf.Scenario`, a :class:`pymapf.MAPFProblem`, or
+        scenario: a :class:`pathweave.Scenario`, a :class:`pathweave.MAPFProblem`, or
             the name of a registered scenario family.
         observation: encoder name or instance (see
-            :mod:`pymapf.rl.observation`).
-        reward: reward function name or instance (see :mod:`pymapf.rl.reward`).
+            :mod:`pathweave.rl.observation`).
+        reward: reward function name or instance (see :mod:`pathweave.rl.reward`).
         max_steps: truncation horizon. Defaults to a multiple of the grid
             diagonal, which scales with the instance instead of being a number
             that silently becomes too small on bigger maps.
@@ -93,11 +93,11 @@ class MAPFEnv:
             problem deployed fleets solve (Li et al. 2021, RHCR), and the
             one-shot objective is not an approximation of it: sum-of-costs
             is undefined when nothing terminates.
-        scenario_kwargs: forwarded to :func:`pymapf.build_scenario` when
+        scenario_kwargs: forwarded to :func:`pathweave.build_scenario` when
             ``randomise`` is drawing new instances.
     """
 
-    metadata = {"name": "pymapf_mapf_v0", "is_parallelizable": True}
+    metadata = {"name": "pathweave_mapf_v0", "is_parallelizable": True}
 
     def __init__(
         self,
@@ -112,8 +112,8 @@ class MAPFEnv:
         lifelong: bool = False,
         **scenario_kwargs,
     ):
-        from pymapf import MAPFProblem, build_scenario
-        from pymapf.scenarios import Scenario
+        from pathweave import MAPFProblem, build_scenario
+        from pathweave.scenarios import Scenario
 
         self.lifelong = bool(lifelong)
         self._scenario_kwargs = dict(scenario_kwargs)
@@ -195,7 +195,7 @@ class MAPFEnv:
 
     @property
     def problem(self) -> "object":
-        """The :class:`pymapf.MAPFProblem` currently loaded.
+        """The :class:`pathweave.MAPFProblem` currently loaded.
 
         Public because the evaluation harness needs to hand exactly this
         instance to a planner; reaching through ``env._problem`` to do it was
@@ -333,7 +333,7 @@ class MAPFEnv:
         if seed is not None:
             self._random = np.random.default_rng(seed)
         if self.randomise:
-            from pymapf import build_scenario
+            from pathweave import build_scenario
 
             kwargs = dict(self._scenario_kwargs)
             kwargs["seed"] = int(self._random.integers(1 << 30))
@@ -552,7 +552,7 @@ class MAPFEnv:
     # scoring, on the planner's own terms
     # ------------------------------------------------------------------
     def solution(self, algorithm: str = "policy") -> Solution:
-        """The episode so far, as a :class:`pymapf.Solution`.
+        """The episode so far, as a :class:`pathweave.Solution`.
 
         Trailing timesteps in which an agent simply sits on its goal are
         trimmed, because that is what the planners' paths do: ``sum_of_costs``

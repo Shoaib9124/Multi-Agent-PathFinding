@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Entry point for the PyMAPF 2D Multi-Agent Pathfinding Research Platform.
+"""Entry point for the PathWeave 2D Multi-Agent Pathfinding Research Platform.
 
 Serves the interactive browser application from ``.docs/`` and exposes JSON API
-endpoints backed directly by ``pymapf`` (Prioritized Space-Time A*, Conflict-Based
+endpoints backed directly by ``pathweave`` (Prioritized Space-Time A*, Conflict-Based
 Search, Multi-Agent PPO, formal solution validation, and batch experiments).
 
 Usage:
@@ -26,8 +26,8 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-import pymapf  # noqa: E402
-from pymapf.research import (  # noqa: E402
+import pathweave  # noqa: E402
+from pathweave.research import (  # noqa: E402
     PLANAR_SCENARIOS,
     TARGET_ALGORITHMS,
     batch_rows_to_csv,
@@ -97,7 +97,8 @@ class ResearchPlatformHandler(SimpleHTTPRequestHandler):
                 200,
                 {
                     "ok": True,
-                    "version": pymapf.__version__,
+                    "name": "PathWeave",
+                    "version": pathweave.__version__,
                     "python": sys.version.split()[0],
                     "algorithms": list(TARGET_ALGORITHMS),
                     "scenarios": list(PLANAR_SCENARIOS),
@@ -205,11 +206,11 @@ ResearchRequestHandler = ResearchPlatformHandler
 
 def run_cli_demo() -> int:
     """Run a quick CLI demonstration comparing Prioritized A*, CBS, and MAPPO."""
-    scenario = pymapf.build_scenario("random_obstacles", n_agents=4, seed=0)
+    scenario = pathweave.build_scenario("random_obstacles", n_agents=4, seed=0)
     problem = scenario.to_problem()
     result = run_comparison(problem, {"time_limit": 5.0, "mappo_mode": "sampled"})
     print(
-        f"PyMAPF {pymapf.__version__} — 2D Research Comparison on "
+        f"PathWeave {pathweave.__version__} — 2D Research Comparison on "
         f"{scenario.name} ({problem.grid.height}x{problem.grid.width}, {len(problem.agents)} agents)"
     )
     print("-" * 78)
@@ -259,7 +260,7 @@ def main() -> int:
 
     server = ThreadingHTTPServer((args.host, args.port), ResearchPlatformHandler)
     print(
-        f"PyMAPF Research & Simulation Platform running at http://{args.host}:{args.port}"
+        f"PathWeave Research & Simulation Platform running at http://{args.host}:{args.port}"
     )
     try:
         server.serve_forever()

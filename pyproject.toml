@@ -3,12 +3,16 @@ requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pymapf"
-description = "A 2D multi-agent pathfinding research and simulation platform with prioritized planning, CBS, and MAPPO"
+name = "pathweave"
+description = "PathWeave: a 2D multi-agent pathfinding research and simulation platform with prioritized planning, CBS, and MAPPO"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
-authors = [{ name = "Erwin Lejeune", email = "erwinlejeune.pro@gmail.com" }]
+authors = [
+    { name = "Shoaib Mohammad", email = "shoaibmd9977@gmail.com" },
+    { name = "Saurabh Chowrasia" },
+    { name = "Manav Saha" },
+]
 keywords = [
     "multi-agent",
     "path-finding",
@@ -53,10 +57,10 @@ Source = "https://github.com/Shoaib9124/Multi-Agent-PathFinding"
 Changelog = "https://github.com/Shoaib9124/Multi-Agent-PathFinding/blob/main/CHANGELOG.md"
 
 [tool.setuptools.dynamic]
-version = { attr = "pymapf.__version__" }
+version = { attr = "pathweave.__version__" }
 
 [tool.setuptools.packages.find]
-include = ["pymapf*"]
+include = ["pathweave*"]
 exclude = ["tests*", "scripts*"]
 
 [tool.pytest.ini_options]

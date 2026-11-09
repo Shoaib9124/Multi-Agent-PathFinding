@@ -1,4 +1,7 @@
-# Development
+# PathWeave Development
+
+PathWeave is the project and product name. The Python package is imported as
+`pathweave`.
 
 ## Requirements
 
@@ -37,8 +40,8 @@ python -m pytest -q
 ## Rebuild the browser bundle
 
 The playground runs the same Python modules through Pyodide. After changing
-anything under `pymapf/core`, `pymapf/algorithms`, `pymapf/scenarios.py` or
-`pymapf/benchmark.py`, regenerate the bundle:
+anything under `pathweave/core`, `pathweave/algorithms`, `pathweave/scenarios.py` or
+`pathweave/benchmark.py`, regenerate the bundle:
 
 ```bash
 python scripts/build_web_bundle.py
@@ -55,11 +58,11 @@ flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
 ## Layout
 
-- `pymapf/core/` — grid, heuristics, problem/solution model, validation, trace.
-- `pymapf/algorithms/` — single-agent search, Space-Time A*, prioritized
+- `pathweave/core/` — grid, heuristics, problem/solution model, validation, trace.
+- `pathweave/algorithms/` — single-agent search, Space-Time A*, prioritized
   planning and CBS.
-- `pymapf/rl/` — MAPF environment, observation, reward, networks and MAPPO.
-- `pymapf/research.py` — comparison harness, MAPPO runner and batch experiments.
+- `pathweave/rl/` — MAPF environment, observation, reward, networks and MAPPO.
+- `pathweave/research.py` — comparison harness, MAPPO runner and batch experiments.
 - `main.py` — HTTP server and CLI entry point.
 - `.docs/` — static browser application.
 - `scripts/` — bundle builder and RL training/evaluation CLI.

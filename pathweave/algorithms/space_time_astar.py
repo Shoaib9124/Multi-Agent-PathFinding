@@ -2,7 +2,7 @@
 
 This is the shared single-agent primitive used by both Prioritized Planning and
 Conflict-Based Search. It searches over ``(cell, time)`` states, honouring
-vertex/edge :class:`~pymapf.core.solver.Constraints`, allowing *wait* actions,
+vertex/edge :class:`~pathweave.core.solver.Constraints`, allowing *wait* actions,
 and terminating on a provable upper bound so it can never loop forever (a
 concrete failure mode of the legacy ``AStar``).
 
@@ -13,9 +13,6 @@ References
   Science and Cybernetics 4(2): 100-107.
 * Silver, D. 2005. *Cooperative pathfinding.* AIIDE 2005: 117-122.  (searching
   over (cell, time) states against a reservation table)
-* Phillips, M.; and Likhachev, M. 2011. *SIPP: Safe interval path planning for
-  dynamic environments.* ICRA 2011: 5628-5635.  (the interval-based alternative
-  in :mod:`pymapf.algorithms.sipp`)
 """
 
 from __future__ import annotations

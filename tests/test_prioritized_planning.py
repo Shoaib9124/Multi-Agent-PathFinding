@@ -3,8 +3,8 @@ from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
-from pymapf.algorithms.prioritized_planning import PrioritizedPlanning
-from pymapf.core import Agent, GridMap, MAPFProblem
+from pathweave.algorithms.prioritized_planning import PrioritizedPlanning
+from pathweave.core import Agent, GridMap, MAPFProblem
 
 
 def _open(n):

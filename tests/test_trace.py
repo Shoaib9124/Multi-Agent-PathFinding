@@ -3,10 +3,10 @@ from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
-import pymapf
-from pymapf.core import Agent, GridMap, MAPFProblem, SearchTrace
-from pymapf.core.solver import count_conflicts
-from pymapf.core.trace import SearchEvent
+import pathweave
+from pathweave.core import Agent, GridMap, MAPFProblem, SearchTrace
+from pathweave.core.solver import count_conflicts
+from pathweave.core.trace import SearchEvent
 
 
 def _crossing_problem():
@@ -16,12 +16,12 @@ def _crossing_problem():
 
 
 def test_solving_without_an_observer_still_works():
-    assert pymapf.solve(_crossing_problem(), "cbs") is not None
+    assert pathweave.solve(_crossing_problem(), "cbs") is not None
 
 
 def test_trace_records_the_search_vocabulary():
     trace = SearchTrace()
-    solution = pymapf.solve(_crossing_problem(), "cbs", observer=trace)
+    solution = pathweave.solve(_crossing_problem(), "cbs", observer=trace)
 
     kinds = {event.kind for event in trace}
     assert {"agent_planned", "root", "expand", "conflict", "solved"} <= kinds
@@ -33,24 +33,24 @@ def test_trace_records_the_search_vocabulary():
 
 def test_expand_events_carry_the_plan_under_consideration():
     trace = SearchTrace()
-    pymapf.solve(_crossing_problem(), "cbs", observer=trace)
+    pathweave.solve(_crossing_problem(), "cbs", observer=trace)
     expand = trace.of_kind("expand")[0]
     assert set(expand["paths"]) == {"a", "b"}
     assert expand["paths"]["a"][0] == (0, 1)
 
 
 def test_cost_curve_is_non_decreasing_for_cbs():
-    scenario = pymapf.build_scenario("corner_swap", n_agents=4)
+    scenario = pathweave.build_scenario("corner_swap", n_agents=4)
     trace = SearchTrace()
-    pymapf.solve(scenario.to_problem(), "cbs", observer=trace)
+    pathweave.solve(scenario.to_problem(), "cbs", observer=trace)
     curve = trace.cost_curve()
     assert curve == sorted(curve)
 
 
 def test_prioritized_planning_emits_one_event_per_agent():
-    scenario = pymapf.build_scenario("empty_room", n_agents=3, seed=1)
+    scenario = pathweave.build_scenario("empty_room", n_agents=3, seed=1)
     trace = SearchTrace()
-    pymapf.solve(scenario.to_problem(), "prioritized", observer=trace)
+    pathweave.solve(scenario.to_problem(), "prioritized", observer=trace)
     assert len(trace.of_kind("agent_planned")) == 3
     assert trace.of_kind("solved")
 
@@ -62,21 +62,21 @@ def test_failure_is_reported_with_a_reason():
         grid, [Agent("a", (1, 0), (1, 2)), Agent("b", (1, 2), (1, 0))]
     )
     trace = SearchTrace()
-    assert pymapf.solve(problem, "cbs", observer=trace, max_expansions=200) is None
+    assert pathweave.solve(problem, "cbs", observer=trace, max_expansions=200) is None
     failures = trace.of_kind("failed")
     assert failures and failures[-1]["reason"]
 
 
 def test_max_events_caps_memory():
-    scenario = pymapf.build_scenario("corner_swap", n_agents=4)
+    scenario = pathweave.build_scenario("corner_swap", n_agents=4)
     trace = SearchTrace(max_events=5)
-    pymapf.solve(scenario.to_problem(), "cbs", observer=trace)
+    pathweave.solve(scenario.to_problem(), "cbs", observer=trace)
     assert len(trace) == 5
 
 
 def test_a_plain_callable_is_a_valid_observer():
     seen = []
-    pymapf.solve(_crossing_problem(), "cbs", observer=seen.append)
+    pathweave.solve(_crossing_problem(), "cbs", observer=seen.append)
     assert all(isinstance(event, SearchEvent) for event in seen)
     assert seen[0].step == 1
     assert seen[-1].elapsed >= seen[0].elapsed

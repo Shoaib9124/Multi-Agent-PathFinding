@@ -5,8 +5,8 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import pytest
 
-import pymapf
-from pymapf.benchmark import (
+import pathweave
+from pathweave.benchmark import (
     BenchmarkReport,
     RunResult,
     aggregate,
@@ -17,7 +17,7 @@ from pymapf.benchmark import (
 
 
 def test_run_once_reports_metrics():
-    scenario = pymapf.build_scenario("corner_swap", n_agents=4)
+    scenario = pathweave.build_scenario("corner_swap", n_agents=4)
     row = run_once(scenario, "cbs")
     assert row.solved and row.valid
     assert row.sum_of_costs > 0
@@ -27,7 +27,7 @@ def test_run_once_reports_metrics():
 
 
 def test_repeats_produce_a_stdev():
-    scenario = pymapf.build_scenario("empty_room", n_agents=2, seed=5)
+    scenario = pathweave.build_scenario("empty_room", n_agents=2, seed=5)
     row = run_once(scenario, "prioritized", repeats=3)
     assert row.repeats == 3
     assert row.runtime_stdev >= 0
@@ -36,7 +36,7 @@ def test_repeats_produce_a_stdev():
 def test_unsupported_solver_kwargs_are_dropped():
     # `time_limit` exists on CBS but not on prioritized planning; a benchmark
     # configured once must run both.
-    scenario = pymapf.build_scenario("empty_room", n_agents=2, seed=1)
+    scenario = pathweave.build_scenario("empty_room", n_agents=2, seed=1)
     assert run_once(scenario, "prioritized", time_limit=5).solved
 
 

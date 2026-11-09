@@ -6,8 +6,8 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import pytest
 
-from pymapf.core import heuristics as H
-from pymapf.core.heuristics import get_heuristic
+from pathweave.core import heuristics as H
+from pathweave.core.heuristics import get_heuristic
 
 
 def test_manhattan():

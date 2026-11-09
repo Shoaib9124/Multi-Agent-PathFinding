@@ -5,7 +5,7 @@ is the one most worth being able to change without touching the environment.
 So encoders are objects behind a registry, exactly like the solvers and the
 swarm behaviors::
 
-    from pymapf.rl import MAPFEnv
+    from pathweave.rl import MAPFEnv
 
     MAPFEnv(scenario, observation="local")          # by name
     MAPFEnv(scenario, observation=LocalWindow(radius=6))

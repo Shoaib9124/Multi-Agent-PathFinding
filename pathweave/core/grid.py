@@ -1,10 +1,8 @@
 """Deterministic grid map used by the MAPF solvers.
 
-Unlike :class:`pymapf.centralized.world.World` -- which randomly scatters walls
-on construction and is therefore unsuitable for reproducible planning or tests
--- :class:`GridMap` is built from an explicit occupancy grid. This makes it
-possible to describe a specific scenario, which is a prerequisite for a usable
-planning framework.
+:class:`GridMap` is built from an explicit occupancy grid. This makes it
+possible to describe a specific, reproducible scenario, which is a prerequisite
+for a usable planning framework and test suite.
 """
 
 from __future__ import annotations

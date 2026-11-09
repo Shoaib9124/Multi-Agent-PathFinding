@@ -1,7 +1,7 @@
 """Minimal action and observation spaces.
 
 Gymnasium's spaces are the obvious thing to reach for, and this module
-deliberately does not. The rest of PyMAPF's core is pure standard library so it
+deliberately does not. The rest of PathWeave's core is pure standard library so it
 runs in CI, on a robot and in the browser, and pulling a heavyweight dependency
 in just to describe "an integer in ``[0, 5)``" would give that up for nothing.
 
@@ -129,8 +129,8 @@ def to_gymnasium(space: Space):
         from gymnasium import spaces as gym_spaces
     except ImportError as error:  # pragma: no cover - exercised only with gymnasium
         raise ImportError(
-            "gymnasium is not installed; `pip install pymapf[rl]` or use the "
-            "spaces in pymapf.rl.spaces directly, which expose the same API"
+            "gymnasium is not installed; `pip install pathweave[rl]` or use the "
+            "spaces in pathweave.rl.spaces directly, which expose the same API"
         ) from error
 
     if isinstance(space, Discrete):

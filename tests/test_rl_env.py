@@ -17,8 +17,8 @@ import pytest
 
 np = pytest.importorskip("numpy")
 
-import pymapf
-from pymapf.rl import (
+import pathweave
+from pathweave.rl import (
     DIAGONAL_ACTIONS,
     ORTHOGONAL_ACTIONS,
     GlobalGrid,
@@ -32,17 +32,17 @@ from pymapf.rl import (
     get_reward,
     register_observation,
 )
-from pymapf.rl.observation import ENCODERS
+from pathweave.rl.observation import ENCODERS
 
 STAY, UP, DOWN, LEFT, RIGHT = range(5)
 
 
 def corridor_env(**kwargs):
     """Two agents facing each other in a 1-cell corridor -- a forced swap."""
-    grid = pymapf.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
-    problem = pymapf.MAPFProblem(
+    grid = pathweave.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
+    problem = pathweave.MAPFProblem(
         grid,
-        [pymapf.Agent("A", (1, 1), (1, 3)), pymapf.Agent("B", (1, 3), (1, 1))],
+        [pathweave.Agent("A", (1, 1), (1, 3)), pathweave.Agent("B", (1, 3), (1, 1))],
     )
     return MAPFEnv(problem, **kwargs)
 
@@ -135,9 +135,9 @@ def test_a_move_into_a_wall_is_refused():
 
 
 def test_two_agents_claiming_one_cell_is_a_vertex_conflict():
-    grid = pymapf.GridMap([[0] * 5 for _ in range(5)])
-    problem = pymapf.MAPFProblem(
-        grid, [pymapf.Agent("A", (2, 1), (2, 4)), pymapf.Agent("B", (2, 3), (2, 0))]
+    grid = pathweave.GridMap([[0] * 5 for _ in range(5)])
+    problem = pathweave.MAPFProblem(
+        grid, [pathweave.Agent("A", (2, 1), (2, 4)), pathweave.Agent("B", (2, 3), (2, 0))]
     )
     env = MAPFEnv(problem)
     env.reset(seed=0)
@@ -160,9 +160,9 @@ def test_two_agents_exchanging_cells_is_an_edge_conflict():
 
 def test_following_is_allowed():
     """A may enter the cell B is leaving -- that is not a conflict in MAPF."""
-    grid = pymapf.GridMap([[1, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1]])
-    problem = pymapf.MAPFProblem(
-        grid, [pymapf.Agent("A", (1, 1), (1, 4)), pymapf.Agent("B", (1, 2), (1, 4))]
+    grid = pathweave.GridMap([[1, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1]])
+    problem = pathweave.MAPFProblem(
+        grid, [pathweave.Agent("A", (1, 1), (1, 4)), pathweave.Agent("B", (1, 2), (1, 4))]
     )
     env = MAPFEnv(problem)
     env.reset(seed=0)
@@ -173,9 +173,9 @@ def test_following_is_allowed():
 
 
 def test_moving_into_a_stationary_agent_is_refused():
-    grid = pymapf.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
-    problem = pymapf.MAPFProblem(
-        grid, [pymapf.Agent("A", (1, 1), (1, 3)), pymapf.Agent("B", (1, 2), (1, 2))]
+    grid = pathweave.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
+    problem = pathweave.MAPFProblem(
+        grid, [pathweave.Agent("A", (1, 1), (1, 3)), pathweave.Agent("B", (1, 2), (1, 2))]
     )
     env = MAPFEnv(problem)
     env.reset(seed=0)
@@ -187,13 +187,13 @@ def test_moving_into_a_stationary_agent_is_refused():
 def test_refusals_cascade():
     """A blocked agent can invalidate the agent moving into the cell it was
     about to vacate, so resolution has to iterate rather than resolve once."""
-    grid = pymapf.GridMap([[1] * 6, [1, 0, 0, 0, 0, 1], [1] * 6])
-    problem = pymapf.MAPFProblem(
+    grid = pathweave.GridMap([[1] * 6, [1, 0, 0, 0, 0, 1], [1] * 6])
+    problem = pathweave.MAPFProblem(
         grid,
         [
-            pymapf.Agent("A", (1, 1), (1, 4)),
-            pymapf.Agent("B", (1, 2), (1, 1)),
-            pymapf.Agent("C", (1, 3), (1, 2)),
+            pathweave.Agent("A", (1, 1), (1, 4)),
+            pathweave.Agent("B", (1, 2), (1, 1)),
+            pathweave.Agent("C", (1, 3), (1, 2)),
         ],
     )
     env = MAPFEnv(problem)
@@ -251,8 +251,8 @@ def test_diagonal_actions_appear_only_when_the_problem_allows_them():
 
 def test_a_solved_episode_matches_the_planner_cost_convention():
     """Trailing waits on the goal are trimmed, exactly as the planners' paths are."""
-    grid = pymapf.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
-    problem = pymapf.MAPFProblem(grid, [pymapf.Agent("A", (1, 1), (1, 3))])
+    grid = pathweave.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
+    problem = pathweave.MAPFProblem(grid, [pathweave.Agent("A", (1, 1), (1, 3))])
     env = MAPFEnv(problem, max_steps=20)
     env.reset(seed=0)
     env.step({"A": RIGHT})
@@ -264,14 +264,14 @@ def test_a_solved_episode_matches_the_planner_cost_convention():
     solution = env.solution()
     assert solution.sum_of_costs == 2  # not 7
     assert solution.paths["A"] == [(1, 1), (1, 2), (1, 3)]
-    optimal = pymapf.solve(problem, "cbs")
+    optimal = pathweave.solve(problem, "cbs")
     assert solution.sum_of_costs == optimal.sum_of_costs
 
 
 def test_the_episode_ends_when_every_agent_is_on_its_goal():
-    grid = pymapf.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
-    problem = pymapf.MAPFProblem(
-        grid, [pymapf.Agent("A", (1, 1), (1, 2)), pymapf.Agent("B", (1, 3), (1, 3))]
+    grid = pathweave.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
+    problem = pathweave.MAPFProblem(
+        grid, [pathweave.Agent("A", (1, 1), (1, 2)), pathweave.Agent("B", (1, 3), (1, 3))]
     )
     env = MAPFEnv(problem, max_steps=20)
     env.reset(seed=0)
@@ -379,7 +379,7 @@ def test_an_agent_parked_on_its_goal_is_not_charged():
 def test_shaping_uses_the_exact_distance_not_a_straight_line():
     """The potential must route around walls, which is the whole point of
     having a real distance oracle rather than a Manhattan guess."""
-    grid = pymapf.GridMap(
+    grid = pathweave.GridMap(
         [
             [1, 1, 1, 1, 1],
             [1, 0, 1, 0, 1],
@@ -388,7 +388,7 @@ def test_shaping_uses_the_exact_distance_not_a_straight_line():
             [1, 1, 1, 1, 1],
         ]
     )
-    problem = pymapf.MAPFProblem(grid, [pymapf.Agent("A", (1, 1), (1, 3))])
+    problem = pathweave.MAPFProblem(grid, [pathweave.Agent("A", (1, 1), (1, 3))])
     reward = ShapedReward()
     env = MAPFEnv(problem, reward=reward)
     env.reset(seed=0)
@@ -400,8 +400,8 @@ def test_shaping_uses_the_exact_distance_not_a_straight_line():
 def test_shaping_is_potential_based_so_a_round_trip_nets_out():
     """Ng et al. (1999): the shaping of a cycle telescopes to (gamma^k - 1) * Phi,
     which is zero when gamma is 1. That is what makes it policy-invariant."""
-    grid = pymapf.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
-    problem = pymapf.MAPFProblem(grid, [pymapf.Agent("A", (1, 1), (1, 3))])
+    grid = pathweave.GridMap([[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]])
+    problem = pathweave.MAPFProblem(grid, [pathweave.Agent("A", (1, 1), (1, 3))])
     reward = ShapedReward(gamma=1.0, step=0.0, goal=0.0, collision=0.0, blocked=0.0)
     env = MAPFEnv(problem, reward=reward)
     env.reset(seed=0)
@@ -412,8 +412,8 @@ def test_shaping_is_potential_based_so_a_round_trip_nets_out():
 
 
 def test_unreachable_cells_do_not_produce_infinities():
-    grid = pymapf.GridMap([[1, 1, 1, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 1, 1]])
-    problem = pymapf.MAPFProblem(grid, [pymapf.Agent("A", (1, 1), (1, 1))])
+    grid = pathweave.GridMap([[1, 1, 1, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 1, 1]])
+    problem = pathweave.MAPFProblem(grid, [pathweave.Agent("A", (1, 1), (1, 1))])
     reward = ShapedReward()
     env = MAPFEnv(problem, reward=reward)
     env.reset(seed=0)
@@ -432,7 +432,7 @@ def test_randomising_draws_a_fresh_instance_each_reset():
 
 
 def test_randomise_needs_a_family_to_draw_from():
-    problem = pymapf.build_scenario("empty_room", n_agents=2).to_problem()
+    problem = pathweave.build_scenario("empty_room", n_agents=2).to_problem()
     with pytest.raises(ValueError):
         MAPFEnv(problem, randomise=True)
 
@@ -483,7 +483,7 @@ def test_respawn_never_shares_a_reward_function(reward):
 
 
 def test_every_vector_worker_gets_its_own_reward_function():
-    from pymapf.rl import VectorMAPFEnv
+    from pathweave.rl import VectorMAPFEnv
 
     template = MAPFEnv(
         "random_obstacles",
@@ -501,7 +501,7 @@ def test_every_vector_worker_gets_its_own_reward_function():
 def test_the_problem_is_reachable_without_touching_privates():
     env = MAPFEnv("empty_room", height=8, width=8, n_agents=2, randomise=False)
     env.reset(seed=0)
-    optimal = pymapf.solve(env.problem, "cbs")
+    optimal = pathweave.solve(env.problem, "cbs")
     assert optimal is not None and optimal.is_valid()
 
 
@@ -513,7 +513,7 @@ def test_the_problem_is_reachable_without_touching_privates():
 def test_finished_agent_stays_stationary_and_ignores_non_stay_actions():
     """Once an agent reaches its assigned goal, it becomes finished and cannot
     move away from its goal even if subsequent actions request movement."""
-    grid = pymapf.GridMap(
+    grid = pathweave.GridMap(
         [
             [1, 1, 1, 1, 1],
             [1, 0, 0, 0, 1],
@@ -522,11 +522,11 @@ def test_finished_agent_stays_stationary_and_ignores_non_stay_actions():
         ]
     )
     # Agent A is 1 step away from its goal (1, 2); Agent B has goal at (2, 3)
-    problem = pymapf.MAPFProblem(
+    problem = pathweave.MAPFProblem(
         grid,
         [
-            pymapf.Agent("A", (1, 1), (1, 2)),
-            pymapf.Agent("B", (2, 1), (2, 3)),
+            pathweave.Agent("A", (1, 1), (1, 2)),
+            pathweave.Agent("B", (2, 1), (2, 3)),
         ],
     )
     env = MAPFEnv(problem, max_steps=10)
@@ -556,7 +556,7 @@ def test_finished_agent_stays_stationary_and_ignores_non_stay_actions():
 def test_occupied_goal_blocks_other_agents_from_entering():
     """An agent that has finished at its goal occupies that cell permanently
     and blocks other agents from entering it."""
-    grid = pymapf.GridMap(
+    grid = pathweave.GridMap(
         [
             [1, 1, 1, 1, 1],
             [1, 0, 0, 0, 1],
@@ -564,11 +564,11 @@ def test_occupied_goal_blocks_other_agents_from_entering():
         ]
     )
     # Corridor: A starts at (1, 1) with goal (1, 2). B starts at (1, 3) with goal (1, 1).
-    problem = pymapf.MAPFProblem(
+    problem = pathweave.MAPFProblem(
         grid,
         [
-            pymapf.Agent("A", (1, 1), (1, 2)),
-            pymapf.Agent("B", (1, 3), (1, 1)),
+            pathweave.Agent("A", (1, 1), (1, 2)),
+            pathweave.Agent("B", (1, 3), (1, 1)),
         ],
     )
     env = MAPFEnv(problem, max_steps=8)

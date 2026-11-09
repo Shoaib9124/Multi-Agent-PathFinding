@@ -1,4 +1,4 @@
-"""Core, algorithm-agnostic building blocks of the PyMAPF 2D framework."""
+"""Core, algorithm-agnostic building blocks of the PathWeave 2D framework."""
 
 from .grid import Cell, GridMap
 from .heuristics import HEURISTICS, get_heuristic, true_distance

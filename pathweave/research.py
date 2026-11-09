@@ -8,8 +8,8 @@ schema:
 2. **Conflict-Based Search (CBS)** -- ``"cbs"``
 3. **Multi-Agent Proximal Policy Optimization (MAPPO)** -- ``"mappo"``
 
-All three approaches receive the exact same 2D :class:`~pymapf.core.MAPFProblem`
-and are audited by :func:`~pymapf.core.validate_solution`. For MAPPO, model
+All three approaches receive the exact same 2D :class:`~pathweave.core.MAPFProblem`
+and are audited by :func:`~pathweave.core.validate_solution`. For MAPPO, model
 training time and policy evaluation/inference time are tracked and reported
 separately so that online search planning time is never conflated with offline
 reinforcement learning training time.

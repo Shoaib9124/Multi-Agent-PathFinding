@@ -1,13 +1,13 @@
 /**
  * mapf.js — the playground's instant-response engine.
  *
- * This is a faithful port of pymapf's core search (space-time A*, prioritized
+ * This is a faithful port of pathweave's core search (space-time A*, prioritized
  * planning, CBS and weighted CBS) so the page is fully interactive from the
  * first paint, before the ~10 MB Pyodide runtime has finished downloading —
  * and so it still works if that download is blocked.
  *
  * The solvers are written as generators that yield SearchEvents, exactly the
- * vocabulary pymapf.core.trace defines. The driver pumps them with a per-frame
+ * vocabulary pathweave.core.trace defines. The driver pumps them with a per-frame
  * time budget, which is what makes the search animate live instead of freezing
  * the tab. When Pyodide is ready the real Python library takes over and emits
  * the same events, so the UI never has to care which engine ran.

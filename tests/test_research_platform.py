@@ -7,15 +7,15 @@ import unittest
 import urllib.request
 
 from main import ResearchHTTPServer, ResearchRequestHandler
-from pymapf.core import Agent, GridMap, MAPFProblem, Solution, validate_solution
-from pymapf.research import (
+from pathweave.core import Agent, GridMap, MAPFProblem, Solution, validate_solution
+from pathweave.research import (
     problem_from_spec,
     run_batch_experiment,
     run_comparison,
     run_single_algorithm,
     validate_problem_spec,
 )
-from pymapf.scenarios import bottleneck, empty_room
+from pathweave.scenarios import bottleneck, empty_room
 
 
 class TestResearchPlatform(unittest.TestCase):
@@ -232,8 +232,8 @@ class TestResearchPlatform(unittest.TestCase):
                         )
 
     def test_audit_cbs_and_prioritized_post_goal_and_conflict_edge_cases(self):
-        from pymapf.algorithms import ConflictBasedSearch, PrioritizedPlanning
-        from pymapf.core.solver import count_conflicts, find_first_conflict
+        from pathweave.algorithms import ConflictBasedSearch, PrioritizedPlanning
+        from pathweave.core.solver import count_conflicts, find_first_conflict
 
         # 1. Stationary vertex conflict across two steps is counted once per step,
         # not double-counted as an edge-swap conflict.
@@ -282,8 +282,8 @@ class TestResearchPlatform(unittest.TestCase):
     def test_audit_mappo_reproducibility_truncation_bootstrap_and_critic_warmstart(
         self,
     ):
-        from pymapf.rl import MAPFEnv, make_trainer, rollout
-        from pymapf.research import load_pretrained_mappo_state
+        from pathweave.rl import MAPFEnv, make_trainer, rollout
+        from pathweave.research import load_pretrained_mappo_state
 
         scenario = empty_room(height=8, width=8, n_agents=3, seed=2)
         env = MAPFEnv(
@@ -315,7 +315,7 @@ class TestResearchPlatform(unittest.TestCase):
         self.assertTrue(trainer.buffer.full)
 
     def test_mappo_greedy_and_sampled_goal_locking_and_execution_logs(self):
-        from pymapf.core.solver import validate_solution
+        from pathweave.core.solver import validate_solution
 
         grid = GridMap(
             [

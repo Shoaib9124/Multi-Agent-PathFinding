@@ -1,5 +1,5 @@
 /**
- * app.js — PyMAPF 2D Multi-Agent Pathfinding Research & Simulation Platform.
+ * app.js — PathWeave 2D Multi-Agent Pathfinding Research & Simulation Platform.
  *
  * Drives:
  *  1. Three-page research workflow:
@@ -1644,7 +1644,7 @@ function downloadBatchCsv() {
   const a = document.createElement('a');
   a.href = url;
   const tag = (state.batchData.scenarios || [state.batchData.scenario || 'experiment']).join('-');
-  a.download = `pymapf-batch-${tag}.csv`;
+  a.download = `pathweave-batch-${tag}.csv`;
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -1658,8 +1658,8 @@ function updateEquivalentCode() {
     .map((a) => `    Agent("${a.name}", start=(${a.start[0]}, ${a.start[1]}), goal=(${a.goal[0]}, ${a.goal[1]})),`)
     .join('\n');
 
-  $('equivalent-code').textContent = `from pymapf import Agent, GridMap, MAPFProblem, solve, validate_solution
-from pymapf.research import compare_all_algorithms
+  $('equivalent-code').textContent = `from pathweave import Agent, GridMap, MAPFProblem, solve, validate_solution
+from pathweave.research import compare_all_algorithms
 
 grid = GridMap(${JSON.stringify(state.matrix)})
 agents = [
@@ -1699,7 +1699,7 @@ async function detectBackendAndPolicy() {
       if (info && info.ok) {
         state.backendAvailable = true;
         $('engine-glyph').className = 'status-glyph live';
-        $('engine-label').textContent = `Python ${info.python || ''} · pymapf ${info.version}`;
+        $('engine-label').textContent = `PathWeave ${info.version} | Python ${info.python || ''}`;
         return;
       }
     }

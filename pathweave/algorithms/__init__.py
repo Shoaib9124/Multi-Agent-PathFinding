@@ -1,4 +1,4 @@
-"""Concrete 2D MAPF algorithms built on the :mod:`pymapf.core` framework.
+"""Concrete 2D MAPF algorithms built on the :mod:`pathweave.core` framework.
 
 Includes the classical Prioritized Planning baseline (Space-Time A*) and
 Conflict-Based Search (CBS), plus single-agent search primitives.
