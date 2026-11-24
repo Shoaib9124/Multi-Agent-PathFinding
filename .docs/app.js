@@ -283,10 +283,11 @@ function drawGridAndAgents(canvas, paths, currentT, options = {}) {
     ctx.globalAlpha = 1;
   });
 
-  // 4. Planned trajectories / rails
+  // 4. Traversed trajectories / rails (rendered strictly as agents traverse)
   const hasPaths = paths && Object.keys(paths).length > 0;
   if (hasPaths) {
     const railSpan = cell * 0.24;
+
     agentNames.forEach((name, index) => {
       const path = paths[name];
       if (!path || !path.length) return;
@@ -294,6 +295,21 @@ function drawGridAndAgents(canvas, paths, currentT, options = {}) {
         ? (index / (agentNames.length - 1) - 0.5) * railSpan
         : 0;
       const color = colorOf(name);
+
+      // Strictly render only the path the agent has traversed up to currentT
+      const lastIdx = path.length - 1;
+      const clampedT = Number.isFinite(currentT) ? Math.max(0, Math.min(currentT, lastIdx)) : 0;
+      const wholeT = Math.floor(clampedT);
+      const pointsToDraw = [];
+      for (let i = 0; i <= wholeT; i += 1) {
+        pointsToDraw.push(path[i]);
+      }
+      if (clampedT > wholeT && clampedT <= lastIdx) {
+        pointsToDraw.push(positionAt(path, currentT));
+      }
+
+      // If the agent has not moved yet (t=0, only 1 position), draw no trail
+      if (pointsToDraw.length < 2) return;
 
       for (const [stroke, lw, alpha] of [
         [css('--surface-1'), Math.max(2.6, cell * 0.2), 0.9],
@@ -305,7 +321,7 @@ function drawGridAndAgents(canvas, paths, currentT, options = {}) {
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
         ctx.beginPath();
-        path.forEach(([r, c], i) => {
+        pointsToDraw.forEach(([r, c], i) => {
           const x = center(c) + offset;
           const y = center(r) + offset;
           if (i === 0) ctx.moveTo(x, y);
